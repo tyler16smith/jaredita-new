@@ -8,7 +8,7 @@ const useDonate = (): TUseDonate => {
   const { data: donationOpportunities } = api.donate.getDonationOpportunities.useQuery();
 
   return {
-    donationOpportunities,
+    donationOpportunities: donationOpportunities ?? [],
   };
 }
 
