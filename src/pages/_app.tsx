@@ -8,6 +8,7 @@ import '@radix-ui/themes/styles.css';
 import { Theme } from "@radix-ui/themes";
 import DocumentHeader from "@/components/DocumentHeader";
 import { Toaster } from "react-hot-toast";
+import Navbar from "@/components/Navbar/Main";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,9 +21,10 @@ const MyApp: AppType = ({
 }) => {
   return (
     <Theme>
-      <main className={`font-sans ${inter.variable} bg-white min-h-screen w-screen overflow-y-auto`}>
+      <main className={`font-sans ${inter.variable} bg-white min-h-screen max-w-screen w-full relative`}>
         <DocumentHeader />
         <Toaster position="top-right" reverseOrder={false} />
+        <Navbar />
         <Component {...pageProps} />
       </main>
     </Theme>

@@ -10,11 +10,45 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
+model DonationOpportunity {
+    id          String   @id @default(cuid())
+    title       String
+    description String
+    amount      Int
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    DonorDonationOpportunity DonorDonationOpportunity[]
+
+    @@map("donation_opportunities")
+}
+
+model Donors {
+    id        String   @id @default(cuid())
     name      String
+    email     String
+    street    String?
+    city      String?
+    state     String?
+    zip       String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([name])
+    DonorDonationOpportunity DonorDonationOpportunity[]
+
+    @@map("donors")
+}
+
+model DonorDonationOpportunity {
+    id                    String   @id @default(cuid())
+    donorId               String
+    donationOpportunityId String
+    amount                Int
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
+
+    donationOpportunity DonationOpportunity @relation(fields: [donationOpportunityId], references: [id])
+    donor               Donors              @relation(fields: [donorId], references: [id])
+
+    @@map("donor_donation_opportunities")
 }
