@@ -33,7 +33,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <div className='h-14' />
+      <div className='h-28' />
     </>
   )
 }
