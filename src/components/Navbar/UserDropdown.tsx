@@ -24,16 +24,17 @@ const UserDropdown = () => {
   }
 
   return (
-    <div className='flex justify-center items-center relative border-[1px] border-gray-200 rounded-full'>
+    <div className='flex justify-center items-center relative border-[1.5px] border-black rounded-full'>
       <User
-        size={32}
+        size={24}
+        strokeWidth={2}
         onClick={() => setIsOpen(!isOpen)}
-        className='p-1.5 hover:bg-gray-200 rounded-full cursor-pointer transition-colors duration-300'
+        className='text-black p-1 hover:bg-gray-200 rounded-full cursor-pointer transition-colors duration-300'
       />
       <FadeInOutWrapper open={isOpen}>
         <div
           ref={dropdownRef}
-          className='absolute top-9 right-0 w-48 bg-white shadow-lg border-[1px] border-gray-200 rounded-md'
+          className='absolute top-8 right-0 w-48 bg-white shadow-lg border-[1px] border-gray-200 rounded-md'
         >
           <DropdownItem text='Log in' icon={<LogIn size={16} />} onClick={handleClick} />
         </div>

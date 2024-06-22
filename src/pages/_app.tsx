@@ -21,7 +21,7 @@ const MyApp: AppType = ({
 }) => {
   return (
     <Theme>
-      <main className={`font-sans ${inter.variable} bg-white min-h-screen max-w-screen w-full relative`}>
+      <main className={`font-sans ${inter.variable} bg-gray-50 min-h-screen max-w-screen w-full relative`}>
         <DocumentHeader />
         <Toaster position="top-right" reverseOrder={false} />
         <Navbar />
