@@ -1,6 +1,39 @@
-import { DonateProvider } from '@/components/Donate/context/DonateProvider'
-import { Dot } from 'lucide-react'
 import React from 'react'
+import { DonateProvider } from '@/components/Donate/context/DonateProvider'
+import SponsorDonateToggle from '@/components/Donate/SponsorDonateToggle'
+import { Dot, Home, UserRound, UsersRound } from 'lucide-react'
+import SponsorshipOption from '@/components/Donate/SponsorshipOption'
+
+export type TSponsorshipOption = {
+  id: string
+  title: string
+  description: string
+  icon: React.ReactNode
+  highlight: boolean
+}
+export const sponsorshipOptions: TSponsorshipOption[] = [
+  {
+    id: 'individual-sponsorship',
+    title: 'Individual',
+    description: 'Sponsor an individual student for $15 per month',
+    icon: <UserRound size={20} />,
+    highlight: false,
+  },
+  {
+    id: 'family-sponsorship',
+    title: 'Family',
+    description: 'Sponsor a family for $15 per student per month',
+    icon: <UsersRound size={20} />,
+    highlight: true,
+  },
+  {
+    id: 'orphanage-sponsorship',
+    title: 'Orphanage',
+    description: 'Sponsor the Bina Kasih Orphanage with a one-time or monthly donation',
+    icon: <Home size={20} />,
+    highlight: false,
+  }
+]
 
 const Donate = () => {
   return (
@@ -11,10 +44,22 @@ const Donate = () => {
           <p>Donate</p>
         </div>
 
-        <div className='max-w-[535px] text-center'>
+        {/* Header */}
+        <div className='flex flex-col justify-center items-center max-w-[535px] text-center'>
           <p className='font-medium mt-5 text-5xl leading-[63px]'>Sponsor a child for $15/month</p>
           <p className='mt-6 mb-10'>See below to learn more about our three donation options of sponsoring an individual, family, or orphanage</p>
+          <SponsorDonateToggle />
         </div>
+
+        {/* Sponsorship Options */}
+        <div className='md:flex justify-center items-center gap-3 mt-16'>
+          {sponsorshipOptions.map((option) => (
+            <div key={option.id} className='w-full'>
+              <SponsorshipOption option={option} />
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
   )

@@ -1,8 +1,9 @@
 // DonateContext.tsx
 import React, { createContext, useContext } from 'react'
-import useDonate, { TUseDonate } from '../hooks/useDonate'
+import useDonate from '../hooks/useDonate'
 
-const DonateContext = createContext<TUseDonate | undefined>(undefined)
+type UseDonate = ReturnType<typeof useDonate>
+const DonateContext = createContext<UseDonate | undefined>(undefined)
 
 export const DonateProvider: React.FC<{
   children: React.ReactNode
@@ -16,7 +17,7 @@ export const DonateProvider: React.FC<{
   )
 }
 
-export const useDonateContext = (): TUseDonate => {
+export const useDonateContext = (): UseDonate => {
   const context = useContext(DonateContext)
   if (context === undefined) {
     throw new Error('useDonateContext() must be used within a DonateProvider')

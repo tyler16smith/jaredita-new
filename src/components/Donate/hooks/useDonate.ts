@@ -1,14 +1,13 @@
-import { RouterOutputs, api } from "@/utils/api"
+import { useState } from "react"
 
-export type TUseDonate = {
-  donationOpportunities: RouterOutputs["donate"]["getDonationOpportunities"]
-}
-
-const useDonate = (): TUseDonate => {
-  const { data: donationOpportunities } = api.donate.getDonationOpportunities.useQuery();
+const useDonate = () => {
+  const [sponsorDonateToggle, setSponsorDonateToggle] = useState<'sponsor' | 'donate'>('sponsor');
+  // const { data: donationOpportunities } = api.donate.getDonationOpportunities.useQuery();
 
   return {
-    donationOpportunities: donationOpportunities ?? [],
+    sponsorDonateToggle,
+    setSponsorDonateToggle,
+    // donationOpportunities,
   };
 }
 
