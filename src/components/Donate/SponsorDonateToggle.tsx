@@ -3,7 +3,7 @@ import { useDonateContext } from './context/DonateProvider'
 import classNames from 'classnames'
 
 const SponsorDonateToggle = () => {
-  const { sponsorDonateToggle, setSponsorDonateToggle } = useDonateContext()
+  const { donationState, setDonationState } = useDonateContext()
 
   return (
     <div className='relative p-1 rounded-2xl shadow-md bg-white w-fit border-[1px] border-gray-200'>
@@ -11,30 +11,30 @@ const SponsorDonateToggle = () => {
         className={classNames(
           'absolute top-1 bottom-1 left-1 rounded-xl bg-black transition-transform duration-200',
           {
-            'translate-x-0': sponsorDonateToggle === 'sponsor',
-            'translate-x-full': sponsorDonateToggle === 'donate'
+            'translate-x-0': donationState.sponsorshipToggle === 'sponsor',
+            'translate-x-full': donationState.sponsorshipToggle === 'donate'
           }
         )}
-        style={{ width: '50%' }}
-      ></div>
+        style={{ width: 'calc(50% - 0.25rem)' }}
+      />
       <div className='relative flex'>
         <button
-          onClick={() => setSponsorDonateToggle('sponsor')}
+          onClick={() => setDonationState({ ...donationState, sponsorshipToggle: 'sponsor' })}
           className={classNames(
             'relative px-5 py-2 rounded-xl transition-colors duration-200 z-10', {
-            'text-white': sponsorDonateToggle === 'sponsor',
-            'text-black': sponsorDonateToggle !== 'sponsor'
+            'text-white': donationState.sponsorshipToggle === 'sponsor',
+            'text-black': donationState.sponsorshipToggle !== 'sponsor'
           }
           )}
         >
           Sponsor
         </button>
         <button
-          onClick={() => setSponsorDonateToggle('donate')}
+          onClick={() => setDonationState({ ...donationState, sponsorshipToggle: 'donate' })}
           className={classNames(
             'relative px-5 py-2 rounded-xl transition-colors duration-200 z-10', {
-            'text-white': sponsorDonateToggle === 'donate',
-            'text-black': sponsorDonateToggle !== 'donate'
+            'text-white': donationState.sponsorshipToggle === 'donate',
+            'text-black': donationState.sponsorshipToggle !== 'donate'
           }
           )}
         >

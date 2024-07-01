@@ -9,6 +9,7 @@ import { Theme } from "@radix-ui/themes";
 import DocumentHeader from "@/components/DocumentHeader";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar/Main";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,7 +26,10 @@ const MyApp: AppType = ({
         <DocumentHeader />
         <Toaster position="top-right" reverseOrder={false} />
         <Navbar />
-        <Component {...pageProps} />
+        <div className="min-h-[calc(100vh-500px)] p-3 md:p-5">
+          <Component {...pageProps} />
+        </div>
+        <Footer />
       </main>
     </Theme>
   );
