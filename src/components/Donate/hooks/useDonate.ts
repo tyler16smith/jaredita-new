@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { DonationState } from "@/utils/types";
 import { initialDonorFormData, initialDonationState } from "@/utils/data";
+import toast from "react-hot-toast";
 
 const useDonate = () => {
   const [donationState, setDonationState] = useState<DonationState>(initialDonationState);
@@ -17,12 +18,30 @@ const useDonate = () => {
     });
   };
 
+  const handleCheckout = async () => {
+    try {
+      await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          donations: donationState.donationsSelected,
+          donor: donorForm,
+        }),
+      });
+    } catch (error) {
+      toast.error('Failed to checkout. Please try again later.');
+    }
+  }
+
   return {
     donationState,
     setDonationState,
     handleSelectDonation,
     donorForm,
     setDonorForm,
+    handleCheckout,
   };
 }
 

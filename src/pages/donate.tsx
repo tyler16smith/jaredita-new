@@ -44,7 +44,7 @@ export const sponsorshipOptions: TSponsorshipOption[] = [
 ]
 
 const Donate = () => {
-  const { donationState, setDonationState } = useDonateContext()
+  const { donationState, donorForm, handleCheckout } = useDonateContext()
 
   return (
     <div className='flex justify-center items-center w-full pb-20'>
@@ -91,6 +91,20 @@ const Donate = () => {
                   Donor information
                 </p>
                 <DonorForm />
+                <div className='mt-10'>
+                  <Button
+                    highContrast
+                    size='3'
+                    color='gray'
+                    variant='solid'
+                    radius='large'
+                    className='mt-5'
+                    disabled={donorForm.firstName === '' || donorForm.email === ''}
+                    onClick={handleCheckout}
+                  >
+                    Continue to checkout
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -23,7 +23,7 @@ const DocumentHeader: React.FC<DocumentHeaderProps> = ({
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <link rel="icon" href={iconPath ?? '/icons/indonesian-flag.png'} />
+      <link rel="icon" href={iconPath ?? '/icons/open_book.png'} />
 
       {/* Open Graph tags */}
       <meta property="og:title" content={title ?? 'Jaredita Foundation'} />
@@ -31,7 +31,7 @@ const DocumentHeader: React.FC<DocumentHeaderProps> = ({
       <meta property="og:url" content={url} />
       <meta
         property="og:image"
-        content={ogImage ?? iconPath ?? '/icons/indonesian-flag.png'}
+        content={ogImage ?? iconPath ?? '/icons/open_book.png'}
       />
       <meta property="og:description" content={description ?? 'Helping young people in Indonesia get an education'} />
 
@@ -41,7 +41,7 @@ const DocumentHeader: React.FC<DocumentHeaderProps> = ({
       <meta name="twitter:description" content={description ?? 'Jaredita Foundation'} />
       <meta
         name="twitter:image"
-        content={ogImage ?? iconPath ?? '/icons/indonesian-flag.png'}
+        content={ogImage ?? iconPath ?? '/icons/open_book.png'}
       />
     </Head>
   )
