@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDonateContext } from './context/DonateProvider'
-import { Carrot, ChevronDown, CircleCheck, CircleDollarSign, MapPin } from 'lucide-react'
 import { FadeInOutWrapper } from '../Animations'
 import classNames from 'classnames'
 import { api } from '@/utils/api'
+import { getHeaderAndPrice } from './utils/functions'
+import { ChevronDown, CircleCheck, CircleDollarSign, MapPin } from 'lucide-react'
 
 const SponsorshipSelection = () => {
   const { donationState, handleSelectDonation } = useDonateContext()
@@ -11,6 +12,18 @@ const SponsorshipSelection = () => {
   const { data: donationOpportunities } = api.donate.getDonationOpportunities.useQuery(
     { type: donationState.typeSelected ?? '' },
   )
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const { header, pricePerMonth } = getHeaderAndPrice(donationState)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   if (donationState.sponsorshipSelected?.type === 'orphanage') {
     return <p>Orphanage donation</p>
@@ -22,7 +35,7 @@ const SponsorshipSelection = () => {
       <div
         onClick={() => setOpen(!open)}
         className={classNames(
-          'flex justify-between items-center gap-3 p-3 rounded-full',
+          'flex justify-between items-center gap-3 p-2 md:p-3 rounded-full',
           'bg-white border-[1px] border-gray-200 hover:shadow-md cursor-pointer',
           'transition-all duration-200',
         )}
@@ -32,8 +45,8 @@ const SponsorshipSelection = () => {
             {donationState.sponsorshipSelected?.icon}
           </div>
           <div>
-            <p className='font-semibold'>None selected</p>
-            <p className='text-sm text-gray-400'>$0/month</p>
+            <p className='font-semibold'>{header}</p>
+            <p className='text-sm text-gray-400'>${pricePerMonth}/month</p>
           </div>
         </div>
         <ChevronDown size={24} className={classNames(
@@ -45,7 +58,14 @@ const SponsorshipSelection = () => {
 
       {/* Options */}
       <FadeInOutWrapper open={open}>
-        <div className='absolute top-full mt-1 left-0 w-full bg-white border-[1px] border-gray-200 rounded-3xl p-3 shadow-md'>
+        <div
+          ref={dropdownRef}
+          className={classNames(
+            'absolute top-full mt-1 left-0 w-full bg-white border-[1px]',
+            'border-gray-200 rounded-3xl p-2 md:p-3 shadow-md z-50 max-h-[300px]',
+            'overflow-auto',
+          )}
+        >
           {/* <p>Filter</p> */}
           {donationOpportunities?.map((opportunity) => {
             const checked = donationState.donationsSelected.includes(opportunity.id)
@@ -54,7 +74,7 @@ const SponsorshipSelection = () => {
                 key={opportunity.id}
                 onClick={handleSelectDonation(opportunity.id)}
                 className={classNames(
-                  'flex justify-start items-center gap-3 p-2 rounded-full',
+                  'flex justify-start items-center gap-1 md:gap-3 p-2 rounded-2xl',
                   'bg-white hover:bg-gray-100 cursor-pointer',
                   'transition-all duration-200',
                 )}
@@ -67,7 +87,7 @@ const SponsorshipSelection = () => {
                 />
                 <div>
                   <p className='font-semibold'>{opportunity.age} year old student</p>
-                  <div className='flex justify-start items-center gap-4'>
+                  <div className='flex justify-start items-center gap-2 md:gap-4'>
                     <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
                       <CircleDollarSign size={16} />
                       <p>${opportunity.cost}/month</p>

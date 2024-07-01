@@ -1,10 +1,14 @@
 import React from 'react'
-import { DonateProvider, useDonateContext } from '@/components/Donate/context/DonateProvider'
-import SponsorDonateToggle from '@/components/Donate/SponsorDonateToggle'
 import { Dot, Home, UserRound, UsersRound } from 'lucide-react'
+import { TSponsorshipOption } from '@/utils/types'
+import SponsorDonateToggle from '@/components/Donate/SponsorDonateToggle'
 import SponsorshipOption from '@/components/Donate/SponsorshipOption'
-import { SponsorshipType, TSponsorshipOption } from '@/utils/types'
 import SponsorshipSelection from '@/components/Donate/SponsorshipSelection'
+import { DonateProvider, useDonateContext } from '@/components/Donate/context/DonateProvider'
+import Explainer from '@/components/Donate/Explainer'
+import { Button } from '@radix-ui/themes'
+import DonorInfo from '@/components/Donate/DonorInfo'
+import DonorForm from '@/components/Donate/DonorInfo'
 
 export const sponsorshipOptions: TSponsorshipOption[] = [
   {
@@ -40,8 +44,7 @@ export const sponsorshipOptions: TSponsorshipOption[] = [
 ]
 
 const Donate = () => {
-  const { donationState } = useDonateContext()
-  console.log("SPONSORSHIP: ", donationState.sponsorshipSelected)
+  const { donationState, setDonationState } = useDonateContext()
 
   return (
     <div className='flex justify-center items-center w-full pb-20'>
@@ -67,14 +70,28 @@ const Donate = () => {
           ))}
         </div>
 
-        {/* Donation selection */}
         {donationState.sponsorshipSelected && (
           <div className='flex flex-col justify-center items-center mt-16 w-full'>
+
+            {/* Donation selection */}
             <div className='flex flex-col gap-3 w-full max-w-[475px]'>
               <p className='uppercase text-sm font-semibold text-gray-500'>
                 Select {donationState.sponsorshipSelected.type === 'individual' ? 'students' : 'families'} to sponsor
               </p>
               <SponsorshipSelection />
+              {donationState.sponsorshipSelected.type !== 'orphanage' && (
+                <div className='mt-1'>
+                  <Explainer />
+                </div>
+              )}
+
+              {/* Donor info */}
+              <div className='mt-10'>
+                <p className='uppercase text-sm font-semibold text-gray-500'>
+                  Donor information
+                </p>
+                <DonorForm />
+              </div>
             </div>
           </div>
         )}

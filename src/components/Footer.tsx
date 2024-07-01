@@ -5,7 +5,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className='flex justify-center p-3 md:p-5 border-t-[1px] border-gray-200'>
+    <div className='flex justify-center p-5 border-t-[1px] border-gray-200'>
       <div className='w-full max-w-[1400px]'>
         <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-10 md:gap-3">
           {/* Contact info */}
