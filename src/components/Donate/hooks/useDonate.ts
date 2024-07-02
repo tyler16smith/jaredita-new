@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { DonationState, SponsorshipToggle } from "@/utils/types";
+import { type DonationState, SponsorshipToggle } from "@/utils/types";
 import { initialDonorFormData, initialDonationState } from "@/utils/data";
 import toast from "react-hot-toast";
 
@@ -13,7 +13,7 @@ const useDonate = () => {
     return (
       (donationState.sponsorshipToggle === SponsorshipToggle.sponsor &&
         donationState.typeSelected)
-      ||
+      ??
       (donationState.sponsorshipToggle === SponsorshipToggle.donate &&
         donationState.moneyDonationAmount
       )

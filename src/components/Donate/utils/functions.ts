@@ -1,8 +1,8 @@
-import { DonationState } from "@/utils/types";
+import { type DonationState } from "@/utils/types";
 
 export const getHeaderAndPrice = (donationState: DonationState) => {
   let header = ''
-  let pricePerMonth = donationState.totalCost
+  const pricePerMonth = donationState.totalCost
   const numDonations = donationState.donationsSelected.length
   const single = numDonations === 1
 
@@ -17,11 +17,11 @@ export const getHeaderAndPrice = (donationState: DonationState) => {
   return { header, pricePerMonth }
 }
 
-export const getLabel = (type: string | null, opportunity: any) => {
+export const getLabel = (type: string | null, age: number, numberOfStudents: number) => {
   if (type === 'individual') {
-    return `${opportunity.age} year old student`
+    return `${age} year old student`
   }
   if (type === 'family') {
-    return `Family of ${opportunity.numberOfStudents} students`
+    return `Family of ${numberOfStudents} students`
   }
 }

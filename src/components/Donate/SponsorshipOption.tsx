@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { ArrowRight, CircleCheck, X } from 'lucide-react'
 import Modal from '../Modal'
 import { useDonateContext } from './context/DonateProvider'
-import { TSponsorshipOption } from '@/utils/types'
+import { type TSponsorshipOption } from '@/utils/types'
 
 type SponsorshipOptionProps = {
   option: TSponsorshipOption

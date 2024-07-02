@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build",
+    "build": "set ESLINT_NO_DEV_ERRORS=false && next build",
     "db:migrate": "prisma migrate dev --create-only",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",

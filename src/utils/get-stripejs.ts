@@ -1,9 +1,10 @@
-import { Stripe, loadStripe } from "@stripe/stripe-js";
+import { type Stripe, loadStripe } from "@stripe/stripe-js";
 
 let stripePromise: Promise<Stripe | null>;
+
 const getStripe = () => {
   if (!stripePromise) {
-    const key = getAPIKey() || "";
+    const key = getAPIKey() ?? "";
     stripePromise = loadStripe(key);
   }
   return stripePromise;

@@ -72,7 +72,7 @@ const SponsorshipSelection = () => {
           >
             {/* <p>Filter</p> */}
             {donationOpportunities?.map((opportunity) => {
-              const label = getLabel(donationState.typeSelected, opportunity)
+              const label = getLabel(donationState.typeSelected, opportunity.age, opportunity.numberOfStudents)
               const checked = donationState.donationsSelected.includes(opportunity.id)
               return (
                 <div

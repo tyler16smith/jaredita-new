@@ -19,8 +19,8 @@ const SponsorDonateToggle = () => {
         className={classNames(
           'absolute top-1 bottom-1 left-1 rounded-xl bg-black transition-transform duration-200',
           {
-            'translate-x-0': donationState.sponsorshipToggle === 'sponsor',
-            'translate-x-full': donationState.sponsorshipToggle === 'donate'
+            'translate-x-0': donationState.sponsorshipToggle === SponsorshipToggle.sponsor,
+            'translate-x-full': donationState.sponsorshipToggle === SponsorshipToggle.donate
           }
         )}
         style={{ width: 'calc(50% - 0.25rem)' }}
@@ -30,8 +30,8 @@ const SponsorDonateToggle = () => {
           onClick={() => handleToggle(SponsorshipToggle.sponsor)}
           className={classNames(
             'relative px-5 py-2 rounded-xl transition-colors duration-200 z-10', {
-            'text-white': donationState.sponsorshipToggle === 'sponsor',
-            'text-black': donationState.sponsorshipToggle !== 'sponsor'
+            'text-white': donationState.sponsorshipToggle === SponsorshipToggle.sponsor,
+            'text-black': donationState.sponsorshipToggle !== SponsorshipToggle.sponsor
           }
           )}
         >
@@ -41,8 +41,8 @@ const SponsorDonateToggle = () => {
           onClick={() => handleToggle(SponsorshipToggle.donate)}
           className={classNames(
             'relative px-5 py-2 rounded-xl transition-colors duration-200 z-10', {
-            'text-white': donationState.sponsorshipToggle === 'donate',
-            'text-black': donationState.sponsorshipToggle !== 'donate'
+            'text-white': donationState.sponsorshipToggle === SponsorshipToggle.donate,
+            'text-black': donationState.sponsorshipToggle !== SponsorshipToggle.donate
           }
           )}
         >

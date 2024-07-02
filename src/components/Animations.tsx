@@ -1,5 +1,5 @@
 // stores all wrapper functions for different animations
-import { ReactNode, useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
 

@@ -7,7 +7,7 @@ type CreateCheckoutSessionProps = {
 }
 
 export const createCheckoutSession = async ({ donations, donor }: CreateCheckoutSessionProps) => {
-  const key = getSecretKey() || "";
+  const key = getSecretKey() ?? "";
   const stripe = require("stripe")(key);
   
   return await stripe.checkout.sessions.create({

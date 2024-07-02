@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dot, Home, UserRound, UsersRound } from 'lucide-react'
-import { SponsorshipToggle, TSponsorshipOption } from '@/utils/types'
+import { SponsorshipToggle, type TSponsorshipOption } from '@/utils/types'
 import SponsorDonateToggle from '@/components/Donate/SponsorDonateToggle'
 import SponsorshipOption from '@/components/Donate/SponsorshipOption'
 import SponsorshipSelection from '@/components/Donate/SponsorshipSelection'

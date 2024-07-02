@@ -1,7 +1,7 @@
 import { db } from "../db"
 
 export const getDonationOpportunities = async (type: 'individual' | 'family') => {
-  const donationOpportunities = db.donationOpportunity.findMany()
+  const donationOpportunities = await db.donationOpportunity.findMany()
   if (!donationOpportunities) return null
   if (type === 'individual') {
     return donationOpportunities

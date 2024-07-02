@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import Accordion from '../Accordion'
 
-type Props = {}
-
-const Explainer = (props: Props) => {
+const Explainer = () => {
   return (
     <Accordion
       trigger={
         <p className='underline text-sm text-gray-400 cursor-pointer'>
-          Why can't I see any names or bios?
+          Why can&apos;t I see any names or bios?
         </p>
       }
       content={
