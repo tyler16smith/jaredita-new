@@ -41,7 +41,7 @@ const Footer = () => {
             </div>
           </div>
           <div className='w-full font-semibold'>
-            <p>Brigher futures are made possible because of donors like you. Thank you.</p>
+            <p>Brighter futures are made possible because of donors like you. Thank you.</p>
             <div className='flex justify-start items-center gap-2 mt-5'>
               <Button size='4' color='gray' variant='solid' highContrast radius='large'>
                 Donate
