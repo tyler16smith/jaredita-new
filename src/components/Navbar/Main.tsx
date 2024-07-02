@@ -14,7 +14,7 @@ const Navbar = () => {
       <div className={classNames(
         'fixed bg-white md:rounded-2xl',
         'p-2.5 md:pl-5 bg-gray-100 md:border-[1px] md:border-gray-200 z-10',
-        'md:top-7 left-1/2 transform -translate-x-1/2 bg-opacity-80 backdrop-blur-md',
+        'md:top-5 left-1/2 transform -translate-x-1/2 bg-opacity-80 backdrop-blur-custom',
         'shadow-md text-sm text-gray-700 w-full max-w-[800px] transition-all duration-300', {
         'h-14': !open,
         'h-auto': open
@@ -53,7 +53,7 @@ const Navbar = () => {
           <NavbarItem text='Contact' route='/contact' />
         </div>
       </div >
-      <div className='h-28' />
+      <div className='h-24' />
     </>
   )
 }

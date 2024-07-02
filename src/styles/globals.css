@@ -13,3 +13,10 @@
 .shadow-even-lg {
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.3);
 }
+
+.backdrop-blur-custom {
+  backdrop-filter: blur(10px);
+  /* For most modern browsers */
+  -webkit-backdrop-filter: blur(10px);
+  /* For Safari and iOS */
+}
