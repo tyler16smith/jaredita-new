@@ -1,4 +1,4 @@
-import { DonorData } from "./types";
+import { DonorData, SponsorshipToggle } from "./types";
 
 export const initialDonorFormData: DonorData = {
   firstName: "",
@@ -14,9 +14,138 @@ export const initialDonorFormData: DonorData = {
   comment: "",
 };
 export const initialDonationState = {
-  sponsorshipToggle: 'sponsor',
+  sponsorshipToggle: SponsorshipToggle.sponsor,
   typeSelected: null,
   sponsorshipSelected: null,
   donationsSelected: [],
   enterInfo: false,
+  moneyDonationAmount: null,
+  totalCost: 0,
+  coverTransactionFee: true,
 }
+export const donationAmounts = [10, 25, 50, 100, 250, 500, 1000];
+
+export const fakeStudentData = [
+  {
+    id: '1',
+    age: 10,
+    cost: 15.00,
+    city: 'Bogor',
+    country: 'Indonesia',
+  },
+  {
+    id: '2',
+    age: 14,
+    cost: 15.00,
+    city: 'Tangerang',
+    country: 'Indonesia',
+  },
+  {
+    id: '3',
+    age: 12,
+    cost: 15.00,
+    city: 'Medan',
+    country: 'Indonesia',
+  },
+  {
+    id: '4',
+    age: 12,
+    cost: 15.00,
+    city: 'Medan',
+    country: 'Indonesia',
+  },
+  {
+    id: '5',
+    age: 12,
+    cost: 15.00,
+    city: 'Medan',
+    country: 'Indonesia',
+  },
+  {
+    id: '6',
+    age: 12,
+    cost: 15.00,
+    city: 'Medan',
+    country: 'Indonesia',
+  },
+  {
+    id: '7',
+    age: 12,
+    cost: 15.00,
+    city: 'Medan',
+    country: 'Indonesia',
+  },
+  {
+    id: '8',
+    age: 12,
+    cost: 15.00,
+    city: 'Medan',
+    country: 'Indonesia',
+  },
+]
+export const fakeFamilyData = [
+  {
+    id: '1',
+    age: 10,
+    cost: 15.00,
+    numberOfStudents: 1,
+    city: 'Bogor',
+    country: 'Indonesia',
+  },
+  {
+    id: '2',
+    age: 14,
+    cost: 45.00,
+    numberOfStudents: 3,
+    city: 'Tangerang',
+    country: 'Indonesia',
+  },
+  {
+    id: '3',
+    age: 12,
+    cost: 30.00,
+    numberOfStudents: 2,
+    city: 'Surabaya',
+    country: 'Indonesia',
+  },
+  {
+    id: '4',
+    age: 12,
+    cost: 60.00,
+    numberOfStudents: 4,
+    city: 'Semarang',
+    country: 'Indonesia',
+  },
+  {
+    id: '5',
+    age: 12,
+    cost: 30.00,
+    numberOfStudents: 2,
+    city: 'Solo',
+    country: 'Indonesia',
+  },
+  {
+    id: '6',
+    age: 12,
+    cost: 45.00,
+    numberOfStudents: 3,
+    city: 'Jakarta',
+    country: 'Indonesia',
+  },
+  {
+    id: '7',
+    age: 12,
+    cost: 45.00,
+    numberOfStudents: 3,
+    city: 'Medan',
+    country: 'Indonesia',
+  },
+  {
+    id: '8',
+    age: 12,
+    cost: 60.00,
+    numberOfStudents: 4,
+    city: 'Malang',
+    country: 'Indonesia',
+  },
+]

@@ -11,13 +11,20 @@ export type TSponsorshipOption = {
   coverImage: string
   content: React.ReactNode
 }
-type SponsorshipToggle = 'sponsor' | 'donate';
+export enum SponsorshipToggle {
+  sponsor = 'sponsor',
+  donate = 'donate'
+}
+export type TSponsorshipToggle = keyof typeof SponsorshipToggle
 export type DonationState = {
   sponsorshipToggle: SponsorshipToggle
   typeSelected: SponsorshipType
   sponsorshipSelected: TSponsorshipOption | null
   donationsSelected: string[]
   enterInfo: boolean
+  moneyDonationAmount: number | null
+  totalCost: number
+  coverTransactionFee: boolean
 }
 export type DonorData = {
   name?: string;

@@ -21,6 +21,9 @@ const SponsorshipOption = ({ option }: SponsorshipOptionProps) => {
       ...donationState,
       typeSelected,
       sponsorshipSelected,
+      // TODO: consider separating the option states to save progress so we don't have to reset (?)
+      donationsSelected: [],
+      totalCost: 0,
     })
   }
 
@@ -64,16 +67,9 @@ const SponsorshipOption = ({ option }: SponsorshipOptionProps) => {
           description={option.description}
           coverImage={option.coverImage}
           trigger={
-            <Button
-              size='3'
-              color='gray'
-              radius='large'
-              variant='ghost'
-            >
-              <span className='flex justify-center items-center gap-1'>
-                Learn more <ArrowRight size={14} />
-              </span>
-            </Button>
+            <p className='flex justify-center items-center gap-1 hover:underline cursor-pointer'>
+              Learn more <ArrowRight size={14} />
+            </p>
           }
         >
           <div className='flex flex-col justify-center items-start gap-5'>

@@ -1,7 +1,5 @@
 // import { getSecretKey } from "@/utils/get-stripejs";
 
-import { createCheckoutSession } from "@/server/services/stripe";
-
 export default async function handler(req: any, res: any) {
   try {
     if (req.method !== "POST") {
@@ -11,9 +9,9 @@ export default async function handler(req: any, res: any) {
     }
     const donor = req.body.donor;
     const donations = req.body.donation;
-    const session = await createCheckoutSession(donor, donations);
+    // const session = await createCheckoutSession(donor, donations);
   
-    res.redirect(303, session.url);
+    // res.redirect(303, session.url);
 
   } catch (error) {
     console.error(error);
