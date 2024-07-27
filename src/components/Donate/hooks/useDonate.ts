@@ -1,13 +1,20 @@
-import { useMemo, useState } from "react"
-import { type DonationState, SponsorshipToggle, Frequency } from "@/utils/types";
+import { useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/router";
+import { type DonationState, SponsorshipToggle, Frequency, TFrequency, SponsorshipType } from "@/utils/types";
 import { initialDonorFormData, initialDonationState } from "@/utils/data";
+import { api } from "@/utils/api";
 import toast from "react-hot-toast";
 
 const useDonate = () => {
+  const router = useRouter()
+  
   // state data
   const [donationState, setDonationState] = useState<DonationState>(initialDonationState);
   const [donorForm, setDonorForm] = useState(initialDonorFormData)
-
+  
+  // api
+  const createDonationSession = api.donate.createDonationSession.useMutation()
+  
   // variable data
   const showDonorForm = useMemo(() => {
     return (
@@ -80,22 +87,34 @@ const useDonate = () => {
   };
 
   const handleCheckout = async () => {
-    return toast('Full checkout coming soon', { icon: '🚀' });
-    try {
-      await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          donations: donationState.donationsSelected,
-          donor: donorForm,
-        }),
-      });
-    } catch (error) {
-      toast.error('Failed to checkout. Please try again later.');
-    }
+    debugger
+    // TODO: account for families and orphanage
+    const type = donationState.typeSelected;
+    if (!type) return
+    const numberOfStudents = donationState.donationsSelected.length;
+    // create donation session
+    createDonationSession.mutate({
+      type: donationState.typeSelected,
+      frequency: donationState.frequency,
+      coverTransactionFee: donationState.coverTransactionFee,
+      amount: donationState.totalCost,
+      quantity: numberOfStudents,
+      firstName: donorForm.firstName,
+      email: donorForm.email,
+    })
   }
+
+  useEffect(() => {
+    if (createDonationSession.data) {
+      router.push(`/checkout?donationSessionId=${createDonationSession.data}`)
+    }
+  }, [createDonationSession.data])
+
+  useEffect(() => {
+    if (createDonationSession.error) {
+      toast.error('Failed to checkout. Please try again later.')
+    }
+  }, [createDonationSession.error])
 
   return {
     cadence,
@@ -108,6 +127,7 @@ const useDonate = () => {
     handleCheckout,
     showDonorForm,
     costBreakdown,
+    checkoutLoading: createDonationSession.isPending,
   };
 }
 

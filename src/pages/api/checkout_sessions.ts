@@ -14,9 +14,9 @@ export default async function handler(req, res) {
   switch (req.method) {
     case "POST":
       try {
-        const {sessionId} = req.body;
+        const { donationSessionId } = req.body;
         // first get the session data from the database
-        const sessionData = await getSessionData(sessionId);
+        const sessionData = await getDonationSession(donationSessionId);
 
         const priceId = getPriceId();
         // Create Checkout Sessions from body params.

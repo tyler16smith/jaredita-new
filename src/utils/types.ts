@@ -11,7 +11,7 @@ export enum DonationType {
   orphanage = 'orphanage',
   general = 'general',
 }
-export type SponsorshipType = keyof typeof DonationType & null
+export type SponsorshipType = keyof typeof DonationType | null
 export type TSponsorshipOption = {
   id: string
   title: string

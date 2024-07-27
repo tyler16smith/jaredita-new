@@ -25,6 +25,7 @@ export const donateRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input }) => {
+      debugger
       return await createDonationSession(input.donationSession);
     }),
 });

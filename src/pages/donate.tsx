@@ -6,7 +6,7 @@ import SponsorshipOption from '@/components/Donate/SponsorshipOption'
 import SponsorshipSelection from '@/components/Donate/SponsorshipSelection'
 import { DonateProvider, useDonateContext } from '@/components/Donate/context/DonateProvider'
 import Explainer from '@/components/Donate/Explainer'
-import { Button } from '@radix-ui/themes'
+import { Button, Spinner } from '@radix-ui/themes'
 import DonorForm from '@/components/Donate/DonorInfo'
 import MoneyDonationSelector from '@/components/Donate/MoneyDonationSelector'
 import PaymentInfo from '@/components/Donate/PaymentInfo'
@@ -45,7 +45,13 @@ export const sponsorshipOptions: TSponsorshipOption[] = [
 ]
 
 const Donate = () => {
-  const { donationState, donorForm, handleCheckout, showDonorForm } = useDonateContext()
+  const {
+    donationState,
+    donorForm,
+    handleCheckout,
+    showDonorForm,
+    checkoutLoading,
+  } = useDonateContext()
 
   return (
     <>
@@ -115,9 +121,10 @@ const Donate = () => {
               variant='solid'
               radius='large'
               className='mt-5'
-              disabled={donorForm.firstName === '' || donorForm.email === ''}
+              disabled={donorForm.firstName === '' || donorForm.email === '' || checkoutLoading}
               onClick={handleCheckout}
             >
+              {checkoutLoading && <Spinner />}
               Continue to checkout
             </Button>
             <p className="text-sm text-gray-400 px-1 italic mt-4">Cancel at any time</p>

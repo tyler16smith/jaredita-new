@@ -11,13 +11,13 @@ const stripePromise = loadStripe(getAPIKey());
 
 export default function Checkout() {
   const router = useRouter()
-  const { sessionId } = router.query
+  const { donationSessionId } = router.query
 
   const fetchClientSecret = useCallback(() => {
     // Create a Checkout Session
     return fetch("/api/checkout_sessions", {
       method: "POST",
-      body: JSON.stringify({ sessionId }),
+      body: JSON.stringify({ donationSessionId }),
     })
       .then((res) => res.json())
       .then((data) => data.clientSecret);

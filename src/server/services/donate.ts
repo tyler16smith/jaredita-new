@@ -23,14 +23,17 @@ export const getDonationOpportunities = async (type: 'individual' | 'family') =>
 }
 
 export const createDonationSession = async (donationSession: DonationSession) => {
-  return await db.donationSession.create({
+  debugger
+  const session = await db.donationSession.create({
     data: donationSession
   })
+  if (!session) throw new Error('Failed to create donation session')
+  return session.id
 }
 
-export const getSessionData = async (sessionId: string) => {
-  const sessionData = await db.session.findUnique({
-    where: { sessionId }
+export const getDonationSession = async (donationSessionId: string) => {
+  const sessionData = await db.donationSession.findUnique({
+    where: { id: donationSessionId }
   })
   return sessionData
 }
