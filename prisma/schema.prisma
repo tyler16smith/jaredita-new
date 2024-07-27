@@ -52,3 +52,33 @@ model DonorDonationOpportunity {
 
     @@map("donor_donation_opportunities")
 }
+
+model DonationSession {
+    id                  String       @id @default(cuid())
+    type                DonationType
+    frequency           Frequency
+    quantity            Int // Number of students sponsoring in case of INDIVIDUAL and FAMILY
+    coverTransactionFee Boolean      @default(false) @map("cover_transaction_fee")
+    amount              Int // Total amount of the donation
+    firstName           String       @map("first_name")
+    email               String
+    donationIdsSelected String[]     @map("donation_ids_selected")
+    completedCheckout   Boolean      @default(false) @map("completed_checkout")
+    createdAt           DateTime     @default(now()) @map("created_at")
+    updatedAt           DateTime     @updatedAt @map("updated_at")
+
+    @@map("donation_sessions")
+}
+
+enum Frequency {
+    once
+    monthly
+    yearly
+}
+
+enum DonationType {
+    individual
+    family
+    orphanage
+    general
+}

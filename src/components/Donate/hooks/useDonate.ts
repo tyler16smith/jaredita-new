@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { type DonationState, SponsorshipToggle } from "@/utils/types";
+import { type DonationState, SponsorshipToggle, Frequency } from "@/utils/types";
 import { initialDonorFormData, initialDonationState } from "@/utils/data";
 import toast from "react-hot-toast";
 
@@ -21,11 +21,46 @@ const useDonate = () => {
   }, [donationState]);
 
   const donationTotal = useMemo(() => {
+    let totalCost = donationState.totalCost;
     if (donationState.coverTransactionFee) {
-      return donationState.totalCost + (donationState.totalCost * 0.03)
+      totalCost += (donationState.totalCost * 0.03)
     }
-    return donationState.totalCost
+    if (donationState.frequency === Frequency.yearly) {
+      totalCost *= 12
+    }
+    return totalCost
   }, [donationState]);
+
+  const costBreakdown = useMemo(() => {
+    if (!donationState.coverTransactionFee || donationState.totalCost === 0) {
+      return '';
+    }
+    const frequencyMultiple = donationState.frequency === Frequency.yearly ? 12 : 1;
+    
+    const totalCost = donationState.totalCost * frequencyMultiple;
+    const transactionFee = donationState.totalCost * frequencyMultiple * 0.03;
+    return `(${totalCost.toFixed(2)} + ${transactionFee.toFixed(2)} fees)`;
+  }, [donationState]);
+
+  const cadence = useMemo(() => {
+    switch (donationState.frequency) {
+      case Frequency.monthly:
+        return {
+          label: 'monthly',
+          value: '/month',
+        };
+      case Frequency.yearly:
+        return {
+          label: 'yearly',
+          value: '/year',
+        };
+      default:
+        return {
+          label: '',
+          value: '',
+        };
+    }
+  }, [donationState?.frequency]);
 
   // handler functions
   const handleSelectDonation = (id: string, cost: number) => () => {
@@ -63,6 +98,7 @@ const useDonate = () => {
   }
 
   return {
+    cadence,
     donationTotal,
     donationState,
     setDonationState,
@@ -71,6 +107,7 @@ const useDonate = () => {
     setDonorForm,
     handleCheckout,
     showDonorForm,
+    costBreakdown,
   };
 }
 

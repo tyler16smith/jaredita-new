@@ -11,7 +11,6 @@ type SponsorshipOptionProps = {
 }
 
 const SponsorshipOption = ({ option }: SponsorshipOptionProps) => {
-  const [hover, setHover] = useState(false)
   const { donationState, setDonationState } = useDonateContext()
 
   const handleSelectType = () => () => {
@@ -30,10 +29,8 @@ const SponsorshipOption = ({ option }: SponsorshipOptionProps) => {
   return (
     <div
       onClick={handleSelectType()}
-      onMouseOver={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
       className={classNames(
-        'flex flex-col justify-center items-start gap-3 md:gap-5 w-full',
+        'flex flex-col justify-center items-start gap-3 md:gap-5 w-full group',
         'transition-all transition-transform duration-300 ease-in-out hover:scale-[1.03] hover:shadow-lg',
         'max-w-[535px] rounded-3xl p-5 mb-5 border-[1px] shadow-even cursor-pointer hover:shadow-even-lg', {
         'border-blue-500': option.highlight,
@@ -51,12 +48,7 @@ const SponsorshipOption = ({ option }: SponsorshipOptionProps) => {
           strokeWidth={1}
           color={donationState.typeSelected === option.type ? 'white' : 'gray'}
           fill={donationState.typeSelected === option.type ? '#3b82f6' : 'transparent'}
-          className={classNames(
-            'transition-opacity duration-200', {
-            'opacity-100': hover || donationState.typeSelected === option.type,
-            'opacity-0': !hover
-          })
-          }
+          className='transition-opacity duration-200 md:opacity-0 md:group-hover:opacity-100'
         />
       </div>
       <p className='font-semibold md:mt-5 text-xl md:text-2xl'>{option.title}</p>

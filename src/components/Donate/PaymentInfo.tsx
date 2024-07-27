@@ -1,8 +1,10 @@
 import React from 'react'
 import { useDonateContext } from './context/DonateProvider'
+import PaymentFrequency from './PaymentFrequency'
+import CoverTransactionFees from './CoverTransactionFees'
 
 const PaymentInfo = () => {
-  const { donationState, donationTotal } = useDonateContext()
+  const { donationState, donationTotal, costBreakdown } = useDonateContext()
   return (
     <div>
       <p className='uppercase text-sm font-semibold text-gray-500'>
@@ -10,18 +12,16 @@ const PaymentInfo = () => {
       </p>
       <div className='mt-4'>
         <p className="text-gray-600 my-2 w-full">
-          Donation total:
+          Total:
           <span className="font-bold px-1">
             ${donationTotal.toFixed(2)} USD
-            <span className="px-1">monthly</span>
+            <PaymentFrequency recurring />
           </span>
           {donationState.totalCost > 0 && (
-            <span className="text-sm">
-              {` ($${donationState.totalCost} + $${(donationState.totalCost * 0.03)?.toFixed(2)} to help cover fees)`}
-            </span>
+            <span className="text-sm">{costBreakdown}</span>
           )}
         </p>
-        <p className="text-sm text-gray-400 px-1">*cancel at any time</p>
+        <CoverTransactionFees />
       </div>
     </div>
   )

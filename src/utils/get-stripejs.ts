@@ -14,18 +14,38 @@ export default getStripe;
 
 export const getAPIKey = () => {
   const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
+  const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  const testKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST;
+
   if (env && env === "development") {
-    return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST;
+    if (!testKey) {
+      throw new Error("Stripe test key is not set");
+    }
+    return testKey;
   } else {
-    return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+    if (!key) {
+      throw new Error("Stripe key is not set");
+    }
+    return key;
   }
 };
 
 export const getSecretKey = () => {
   const env = process.env.NEXT_PUBLIC_ENVIRONMENT;
+  const key = process.env.STRIPE_SECRET_KEY;
+  const testKey = process.env.STRIPE_SECRET_KEY_TEST;
+
   if (env && env === "development") {
-    return process.env.STRIPE_SECRET_KEY_TEST;
+    if (!testKey) {
+      throw new Error("Stripe test key is not set");
+    }
+    console.log("Using test key");
+    return testKey;
   } else {
-    return process.env.STRIPE_SECRET_KEY;
+    if (!key) {
+      throw new Error("Stripe key is not set");
+    }
+    console.log("Using live key");
+    return key;
   }
 };

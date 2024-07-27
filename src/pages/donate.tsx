@@ -93,7 +93,7 @@ const Donate = () => {
       {/* Donate option */}
       {donationState.sponsorshipToggle === SponsorshipToggle.donate && (
         <div className='flex justify-center items-center mt-16 w-full'>
-          <div className='max-w-[475px]'>
+          <div className='w-full max-w-[475px]'>
             <p className='uppercase text-sm font-semibold text-gray-500 mb-5'>Donation amount</p>
             <MoneyDonationSelector />
           </div>
@@ -102,7 +102,7 @@ const Donate = () => {
 
       {/* Donor info */}
       {showDonorForm && (
-        <div className='mt-16'>
+        <div className='mt-16 w-full max-w-[475px]'>
           <DonorForm />
           <div className='mt-16'>
             <PaymentInfo />
@@ -120,6 +120,7 @@ const Donate = () => {
             >
               Continue to checkout
             </Button>
+            <p className="text-sm text-gray-400 px-1 italic mt-4">Cancel at any time</p>
           </div>
         </div>
       )}

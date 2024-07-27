@@ -2,18 +2,20 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDonateContext } from './context/DonateProvider'
 import classNames from 'classnames'
 import { api } from '@/utils/api'
-import { getHeaderAndPrice, getLabel } from './utils/functions'
+import { getHeaderAndPrice } from './utils/functions'
 import { ChevronDown, CircleCheck, CircleDollarSign, MapPin } from 'lucide-react'
 import MoneyDonationSelector from './MoneyDonationSelector'
+import PaymentFrequency from './PaymentFrequency'
+import { Frequency } from '@/utils/types'
 
 const SponsorshipSelection = () => {
-  const { donationState, handleSelectDonation } = useDonateContext()
+  const { donationState, handleSelectDonation, cadence } = useDonateContext()
   const [open, setOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
   const { data: donationOpportunities } = api.donate.getDonationOpportunities.useQuery(
     { type: donationState.typeSelected ?? '' },
   )
-  const dropdownRef = useRef<HTMLDivElement>(null)
-  const { header, pricePerMonth } = getHeaderAndPrice(donationState)
+  const { header, cost } = getHeaderAndPrice(donationState)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -33,8 +35,12 @@ const SponsorshipSelection = () => {
   return (
     <>
       <p className='uppercase text-sm font-semibold text-gray-500'>
-        Select {donationState.sponsorshipSelected?.type === 'individual' ? 'students' : 'families'} to sponsor
+        Sponsorship
       </p>
+      <div className='flex justify-start items-center text-gray-800 text-sm'>
+        <p>Frequency:</p>
+        <PaymentFrequency recurring />
+      </div>
       <div ref={dropdownRef} className='relative'>
         {/* Dropdown */}
         <div
@@ -51,7 +57,7 @@ const SponsorshipSelection = () => {
             </div>
             <div>
               <p className='font-semibold'>{header}</p>
-              <p className='text-sm text-gray-400'>${pricePerMonth}/month</p>
+              <p className='text-sm text-gray-400'>${cost}{cadence.value}</p>
             </div>
           </div>
           <ChevronDown size={24} className={classNames(
@@ -72,12 +78,21 @@ const SponsorshipSelection = () => {
           >
             {/* <p>Filter</p> */}
             {donationOpportunities?.map((opportunity) => {
-              const label = getLabel(donationState.typeSelected, opportunity.age, opportunity.numberOfStudents)
+              let label = ''
+              const cost = cadence.label === Frequency.yearly
+                ? opportunity.cost * 12
+                : opportunity.cost
+              if (donationState.typeSelected === 'individual') {
+                label = `${opportunity.age} year old student`
+              }
+              if (donationState.typeSelected === 'family') {
+                label = `Family of ${opportunity.numberOfStudents} students`
+              }
               const checked = donationState.donationsSelected.includes(opportunity.id)
               return (
                 <div
                   key={opportunity.id}
-                  onClick={handleSelectDonation(opportunity.id, opportunity.cost)}
+                  onClick={handleSelectDonation(opportunity.id, cost)}
                   className={classNames(
                     'flex justify-start items-center gap-1 md:gap-3 p-2 rounded-2xl',
                     'bg-white hover:bg-gray-100 cursor-pointer',
@@ -95,7 +110,7 @@ const SponsorshipSelection = () => {
                     <div className='flex justify-start items-center gap-2 md:gap-4'>
                       <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
                         <CircleDollarSign size={16} />
-                        <p>${opportunity.cost}/month</p>
+                        <p>${cost}{cadence.value}</p>
                       </div>
                       <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
                         <MapPin size={16} />

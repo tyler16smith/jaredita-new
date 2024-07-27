@@ -1,4 +1,4 @@
-import { type DonorData, SponsorshipToggle } from "./types";
+import { type DonorData, SponsorshipToggle, Frequency } from "./types";
 
 export const initialDonorFormData: DonorData = {
   firstName: "",
@@ -22,6 +22,7 @@ export const initialDonationState = {
   moneyDonationAmount: null,
   totalCost: 0,
   coverTransactionFee: true,
+  frequency: Frequency.monthly,
 }
 export const donationAmounts = [10, 25, 50, 100, 250, 500, 1000];
 

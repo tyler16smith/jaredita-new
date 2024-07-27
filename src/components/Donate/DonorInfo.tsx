@@ -2,6 +2,7 @@ import { initialDonorFormData } from "@/utils/data";
 import { DonorData, SponsorshipToggle } from "@/utils/types";
 import { useDonateContext } from "./context/DonateProvider";
 import { useMemo } from "react";
+import { Tooltip } from "@radix-ui/react-tooltip";
 // import CountryDropdown from "./CountryDropdown";
 
 export const FormStyles = {
@@ -48,7 +49,11 @@ const DonorForm = () => {
         Donor information
       </p>
       <div className="relative mt-4">
-        {disableForm && <div className="absolute inset-0 bg-gray-50 opacity-50" />}
+        {disableForm && (
+          <Tooltip>
+            <div className="absolute inset-0 bg-gray-50 opacity-50" />
+          </Tooltip>
+        )}
         <div className="md:flex justify-start items-center gap-4">
           <div className="mb-4">
             <label htmlFor="firstName" className={FormStyles.Label}>

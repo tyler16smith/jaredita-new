@@ -2,6 +2,8 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 // import { getDonationOpportunities } from "@/server/services/donate";
 import { fakeFamilyData, fakeStudentData } from "@/utils/data";
+import { DonationSessionSchema } from "@/utils/types";
+import { createDonationSession } from "@/server/services/donate";
 
 export const donateRouter = createTRPCRouter({
   getDonationOpportunities: publicProcedure
@@ -15,5 +17,14 @@ export const donateRouter = createTRPCRouter({
       if (input.type === 'family') return fakeFamilyData
       return []
       // return await getDonationOpportunities(input.type);
+    }),
+  createDonationSession: publicProcedure
+    .input(
+      z.object({
+        donationSession: DonationSessionSchema,
+      })
+    )
+    .mutation(async ({ input }) => {
+      return await createDonationSession(input.donationSession);
     }),
 });

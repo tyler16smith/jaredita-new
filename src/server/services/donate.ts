@@ -1,3 +1,4 @@
+import { type DonationSession } from "@/utils/types"
 import { db } from "../db"
 
 export const getDonationOpportunities = async (type: 'individual' | 'family') => {
@@ -19,4 +20,17 @@ export const getDonationOpportunities = async (type: 'individual' | 'family') =>
     
   //   return groupedByFamilies
   // }
+}
+
+export const createDonationSession = async (donationSession: DonationSession) => {
+  return await db.donationSession.create({
+    data: donationSession
+  })
+}
+
+export const getSessionData = async (sessionId: string) => {
+  const sessionData = await db.session.findUnique({
+    where: { sessionId }
+  })
+  return sessionData
 }
