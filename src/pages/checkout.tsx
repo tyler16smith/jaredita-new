@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   EmbeddedCheckoutProvider,
@@ -10,20 +10,35 @@ import { useRouter } from 'next/router';
 const stripePromise = loadStripe(getAPIKey());
 
 export default function Checkout() {
-  const router = useRouter()
-  const { donationSessionId } = router.query
+  const router = useRouter();
+  const { donationSessionId } = router.query;
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
 
   const fetchClientSecret = useCallback(() => {
-    // Create a Checkout Session
-    return fetch("/api/checkout_sessions", {
+    if (!donationSessionId) return;
+
+    fetch("/api/checkout_sessions", {
       method: "POST",
       body: JSON.stringify({ donationSessionId }),
     })
       .then((res) => res.json())
-      .then((data) => data.clientSecret);
-  }, []);
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+      })
+      .catch((error) => {
+        console.error('Error fetching client secret:', error);
+      });
+  }, [donationSessionId]);
 
-  const options = { fetchClientSecret };
+  useEffect(() => {
+    fetchClientSecret();
+  }, [fetchClientSecret]);
+
+  if (!donationSessionId || !clientSecret) {
+    return <div>Loading...</div>;
+  }
+
+  const options = { clientSecret };
 
   return (
     <div id="checkout" className='w-full max-w-[500px]'>
@@ -34,5 +49,5 @@ export default function Checkout() {
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>
     </div>
-  )
+  );
 }

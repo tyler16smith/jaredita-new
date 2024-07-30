@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/router";
-import { type DonationState, SponsorshipToggle, Frequency, TFrequency, SponsorshipType } from "@/utils/types";
+import { type DonationState, SponsorshipToggle, Frequency, TFrequency, SponsorshipType, type DonationType } from "@/utils/types";
 import { initialDonorFormData, initialDonationState } from "@/utils/data";
 import { api } from "@/utils/api";
 import toast from "react-hot-toast";
@@ -89,22 +89,30 @@ const useDonate = () => {
   const handleCheckout = async () => {
     debugger
     // TODO: account for families and orphanage
-    const type = donationState.typeSelected;
-    if (!type) return
+    const type = donationState.typeSelected as DonationType;
     const numberOfStudents = donationState.donationsSelected.length;
+    if (!donorForm.firstName) {
+      toast.error('Please fill out your name and email.')
+      return
+    }
     // create donation session
     createDonationSession.mutate({
-      type: donationState.typeSelected,
-      frequency: donationState.frequency,
-      coverTransactionFee: donationState.coverTransactionFee,
-      amount: donationState.totalCost,
-      quantity: numberOfStudents,
-      firstName: donorForm.firstName,
-      email: donorForm.email,
+      donationSession: {
+        type,
+        coverTransactionFee: donationState.coverTransactionFee,
+        frequency: donationState.frequency,
+        amount: donationTotal,
+        quantity: numberOfStudents,
+        firstName: donorForm.firstName,
+        email: donorForm.email,
+        donationIdsSelected: donationState.donationsSelected,
+        completedCheckout: false,
+      }
     })
   }
 
   useEffect(() => {
+    debugger
     if (createDonationSession.data) {
       router.push(`/checkout?donationSessionId=${createDonationSession.data}`)
     }

@@ -1,24 +1,54 @@
+import { getDonationSession } from "@/server/services/donate";
 import { getSecretKey } from "@/utils/get-stripejs";
-
+import { DonationType, SponsorshipType, Frequency } from "@/utils/types";
 const stripe = require('stripe')(getSecretKey());
 
-function getPriceId() {
-  const priceId = process.env.STRIPE_STUDENT_SUBSCRIPTION_PRICE_ID;
-  if (!priceId) {
-    throw new Error('Stripe Student Subscription Price ID is not set');
+const individualMonthlySubscriptionPriceId = process.env.STRIPE_INDIVIDUAL_MONTHLY_SUBSCRIPTION_PRICE_ID;
+const individualYearlySubscriptionPriceId = process.env.STRIPE_INDIVIDUAL_YEARLY_SUBSCRIPTION_PRICE_ID;
+const familyMonthlySubscriptionPriceId = process.env.STRIPE_FAMILY_MONTHLY_SUBSCRIPTION_PRICE_ID;
+const familyYearlySubscriptionPriceId = process.env.STRIPE_FAMILY_YEARLY_SUBSCRIPTION_PRICE_ID;
+
+type GetPriceIdProps = {
+  type: string
+  frequency: Frequency;
+}
+function getPriceId({ type, frequency }: GetPriceIdProps) {
+  if (type === DonationType.individual) {
+    if (frequency === Frequency.monthly) {
+      return individualMonthlySubscriptionPriceId;
+    }
+    if (frequency === Frequency.yearly) {
+      return individualYearlySubscriptionPriceId;
+    }
+  } else if (type === DonationType.family) {
+    if (frequency === Frequency.monthly) {
+      return familyMonthlySubscriptionPriceId;
+    }
+    if (frequency === Frequency.yearly) {
+      return familyYearlySubscriptionPriceId;
+    }
   }
-  return priceId;
+  throw new Error('Stripe Student Subscription Price ID is not set');
 }
 
-export default async function handler(req, res) {
+export default async function handler(req: any, res: any) {
   switch (req.method) {
     case "POST":
       try {
-        const { donationSessionId } = req.body;
+        debugger
+        const { donationSessionId } = JSON.parse(req.body);
+        if (!donationSessionId) {
+          throw new Error('Invalid donation session ID');
+        }
         // first get the session data from the database
         const sessionData = await getDonationSession(donationSessionId);
+        // determine the price id from the donation type
+        if (!sessionData) return
+        const priceId = getPriceId({
+          type: sessionData?.type,
+          frequency: sessionData?.frequency as Frequency,
+        });
 
-        const priceId = getPriceId();
         // Create Checkout Sessions from body params.
         const session = await stripe.checkout.sessions.create({
           ui_mode: 'embedded',
@@ -27,8 +57,8 @@ export default async function handler(req, res) {
               // Provide the exact Price ID (for example, pr_1234) of
               // the product you want to sell
               // price: priceId,
-              price: 'price_1PhDjsLIYf4BaeDBjvolc05U',
-              quantity: 1,
+              price: priceId,
+              quantity: sessionData?.quantity,
             },
           ],
           mode: 'subscription',
@@ -37,7 +67,7 @@ export default async function handler(req, res) {
         });
 
         res.send({clientSecret: session.client_secret});
-      } catch (err) {
+      } catch (err: any) {
         res.status(err.statusCode || 500).json(err.message);
       }
       break;

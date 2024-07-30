@@ -23,7 +23,6 @@ export const getDonationOpportunities = async (type: 'individual' | 'family') =>
 }
 
 export const createDonationSession = async (donationSession: DonationSession) => {
-  debugger
   const session = await db.donationSession.create({
     data: donationSession
   })

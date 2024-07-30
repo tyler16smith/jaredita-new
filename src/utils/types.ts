@@ -73,22 +73,24 @@ export type DonationSession = {
   completedCheckout: boolean
 }
 export const DonationSessionSchema = z.object({
-  type: z.enum(atLeastOne([
-    DonationType.individual,
-    DonationType.family,
-    DonationType.orphanage,
-    DonationType.general,
-  ])),
-  frequency: z.enum(atLeastOne([
-    Frequency.monthly,
-    Frequency.yearly,
-    Frequency.once,
-  ])),
-  coverTransactionFee: z.boolean(),
-  amount: z.number(),
-  quantity: z.number(),
-  firstName: z.string(),
-  email: z.string().email(),
-  donationIdsSelected: z.array(z.string()),
-  completedCheckout: z.boolean(),
+  donationSession: z.object({
+    type: z.enum(atLeastOne([
+      DonationType.individual,
+      DonationType.family,
+      DonationType.orphanage,
+      DonationType.general,
+    ])),
+    frequency: z.enum(atLeastOne([
+      Frequency.monthly,
+      Frequency.yearly,
+      Frequency.once,
+    ])),
+    coverTransactionFee: z.boolean(),
+    amount: z.number(),
+    quantity: z.number(),
+    firstName: z.string(),
+    email: z.string().email(),
+    donationIdsSelected: z.array(z.string()),
+    completedCheckout: z.boolean(),
+  }),
 })
