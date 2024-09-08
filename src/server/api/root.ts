@@ -1,6 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { donateRouter } from "./routers/donate.router";
 import { studentsRouter } from "./routers/students.router";
+import { familiesRouter } from "./routers/families.router";
 
 /**
  * This is the primary router for your server.

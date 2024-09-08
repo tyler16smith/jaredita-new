@@ -4,6 +4,7 @@ import { api } from "@/utils/api";
 import toast from "react-hot-toast";
 import { type TStudent } from "@/utils/types";
 import { type UseFormReturn } from "react-hook-form";
+import { useRouter } from "next/router";
 
 export const styles = {
   Label: "block text-sm font-medium text-gray-600 mt-2 mb-1",
@@ -13,11 +14,13 @@ export const styles = {
 export type TSetLoading = (loading: boolean) => void;
 
 export const useAddStudentForm = () => {
+  const router = useRouter();
   const [added, setAdded] = useState(false);
   const addStudent = api.students.addStudent.useMutation({
     onSuccess: () => {
       setAdded(true);
       toast.success("Student added successfully");
+      router.push('/manage-students')
     },
     onError: (error) => {
       console.error("Error adding student: ", error);

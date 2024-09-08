@@ -2,7 +2,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { addFamily, getFamilies } from "@/server/services/families";
 import { StudentSchema } from "@/utils/types";
 
-export const studentsRouter = createTRPCRouter({
+export const familiesRouter = createTRPCRouter({
   getFamilies: publicProcedure
     .query(async () => {
       return await getFamilies();

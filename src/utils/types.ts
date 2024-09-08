@@ -158,10 +158,31 @@ export const StudentSchema = z.object({
   familyId: z.string().nullable(),
 })
 export type TStudent = z.infer<typeof StudentSchema>
+export const FullStudentSchema = StudentSchema.extend({
+  id: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+})
+export type TFullStudent = z.infer<typeof FullStudentSchema>
+export const UpdateStudentSchema = z.object({
+  id: z.string(),
+  updatedAt: z.string(),
+  createdAt: z.string().optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().nullable(),
+  age: z.number().optional(),
+  gender: GenderSchema.optional(),
+  imageUrl: z.string().optional(),
+  fullAddress: z.string().optional(),
+  gradeLevel: z.any().optional(), // GradeLevelSchema.nullable(), // TODO: fix this
+  email: z.string().email().optional(),
+  familyId: z.string().optional(),
+})
+export type TUpdateStudent = z.infer<typeof UpdateStudentSchema>
 
 // families
 export const FamilySchema = z.object({
-  familyId: z.string(),
+  id: z.string(),
   familyName: z.string(),
   email: z.string().optional(),
   fullAddress: z.string().optional(),

@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { api } from '@/utils/api'
-import { ChevronDown, CircleCheck, CircleDollarSign, MapPin } from 'lucide-react'
+import { ChevronDown, CircleCheck, CircleDollarSign, MapPin, UsersRound } from 'lucide-react'
 import { Frequency, type TFamily } from '@/utils/types'
 import { type UseFormReturn } from 'react-hook-form'
+import Image from 'next/image'
+import FamilyImage from '@/components/Manage/FamilyImage'
 
 const SelectFamilyDropdown = ({ form }: {
   form: UseFormReturn<any>
@@ -26,28 +28,41 @@ const SelectFamilyDropdown = ({ form }: {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const handleSelectFamily = (family: TFamily) => {
+    setFamilySelected(family)
+    form.setValue('familyId', family.id)
+    setOpen(false)
+  }
+
   return (
-    <>
-      <p className='uppercase text-sm font-semibold text-gray-500'>
+    <div>
+      <label className='text-sm font-semibold text-gray-500'>
         Add to family
-      </p>
-      <div ref={dropdownRef} className='relative'>
+      </label>
+      <div ref={dropdownRef} className='relative mt-2'>
         {/* Dropdown */}
         <div
           onClick={() => setOpen(!open)}
           className={classNames(
-            'flex justify-between items-center gap-3 p-2 md:p-3 rounded-full',
+            'flex justify-between items-center gap-3 px-3 py-2 rounded-xl',
             'bg-white border-[1px] border-gray-200 hover:shadow-md cursor-pointer',
-            'transition-all duration-200',
+            'transition-all duration-200 text-gray-700',
           )}
         >
           <div className='flex justify-start items-center gap-3'>
-            <div className='flex justify-center items-center w-12 h-12 bg-gray-200 rounded-full'>
-              {familySelected}
+            <div className='flex justify-center items-center w-10 h-10 bg-gray-200 rounded-full'>
+              <FamilyImage imageUrl={familySelected?.imageUrl} />
             </div>
             <div>
-              <p className='font-semibold'>{header}</p>
-              <p className='text-sm text-gray-400'>${cost}{cadence.value}</p>
+              <p className='font-semibold'>
+                {familySelected?.familyName ?? 'Select a family'}
+              </p>
+              {familySelected?.fullAddress && (
+                <div className='flex justify-start items-center gap-2 text-sm'>
+                  <MapPin size={16} className='shrink-0' />
+                  {familySelected?.fullAddress}
+                </div>
+              )}
             </div>
           </div>
           <ChevronDown size={24} className={classNames(
@@ -66,55 +81,30 @@ const SelectFamilyDropdown = ({ form }: {
               'overflow-auto',
             )}
           >
-            {/* <p>Filter</p> */}
-            {donationOpportunities?.map((opportunity) => {
-              let label = ''
-              const cost = cadence.label === Frequency.yearly
-                ? opportunity.cost * 12
-                : opportunity.cost
-              if (donationState.typeSelected === 'individual') {
-                label = `${opportunity.age} year old student`
-              }
-              if (donationState.typeSelected === 'family') {
-                label = `Family of ${opportunity.numberOfStudents} students`
-              }
-              const checked = donationState.donationsSelected.includes(opportunity.id)
-              return (
-                <div
-                  key={opportunity.id}
-                  onClick={handleSelectDonation(opportunity.id, cost)}
-                  className={classNames(
-                    'flex justify-start items-center gap-1 md:gap-3 p-2 rounded-2xl',
-                    'bg-white hover:bg-gray-100 cursor-pointer',
-                    'transition-all duration-200',
-                  )}
-                >
-                  <CircleCheck
-                    size={44}
-                    strokeWidth={1}
-                    color={checked ? 'white' : 'lightgray'}
-                    fill={checked ? '#3b82f6' : 'transparent'}
-                  />
-                  <div>
-                    <p className='font-semibold'>{label}</p>
-                    <div className='flex justify-start items-center gap-2 md:gap-4'>
-                      <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
-                        <CircleDollarSign size={16} />
-                        <p>${cost}{cadence.value}</p>
-                      </div>
-                      <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
-                        <MapPin size={16} />
-                        <p>{opportunity.city}, {opportunity.country}</p>
-                      </div>
-                    </div>
+            {families?.map(family => (
+              <div
+                key={family.id}
+                onClick={() => handleSelectFamily(family)}
+                className={classNames(
+                  'flex justify-start items-center gap-1 md:gap-3 p-2 rounded-2xl',
+                  'bg-white hover:bg-gray-50 cursor-pointer',
+                  'transition-all duration-200',
+                )}
+              >
+                <FamilyImage imageUrl={family.imageUrl} />
+                <div>
+                  <p className='font-semibold'>{family.familyName}</p>
+                  <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
+                    <MapPin size={16} />
+                    <p>{family.fullAddress}</p>
                   </div>
                 </div>
-              )
-            })}
+              </div>
+            ))}
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }
 

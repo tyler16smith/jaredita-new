@@ -3,6 +3,7 @@ import AddStudentForm from "@/components/Donate/AddStudent/Form";
 import UploadImage from "@/components/Donate/AddStudent/UploadImage";
 import { useAddStudentForm } from "@/components/Donate/AddStudent/hooks/useAddStudentForm";
 import classNames from "classnames";
+import SelectFamilyDropdown from "@/components/Donate/AddStudent/SelectFamilyDropdown";
 
 const AddStudent = () => {
   const { handleSubmit, isLoading } = useAddStudentForm();
@@ -21,7 +22,7 @@ const AddStudent = () => {
             >
               <UploadImage form={form} />
               <AddStudentForm form={form} isLoading={isLoading} />
-              {/* <SelectFamilyDropdown form={form} /> */}
+              <SelectFamilyDropdown form={form} />
               <button
                 type="submit"
                 disabled={isLoading}

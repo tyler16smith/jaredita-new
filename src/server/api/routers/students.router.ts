@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { addStudent, getStudents } from "@/server/services/students";
-import { StudentSchema } from "@/utils/types";
+import { addStudent, getStudents, updateStudent } from "@/server/services/students";
+import { StudentSchema, UpdateStudentSchema } from "@/utils/types";
 
 export const studentsRouter = createTRPCRouter({
   getStudents: publicProcedure
@@ -11,5 +11,10 @@ export const studentsRouter = createTRPCRouter({
     .input(StudentSchema)
     .mutation(async ({ input }) => {
       return await addStudent(input);
+    }),
+  updateStudent: publicProcedure
+    .input(UpdateStudentSchema)
+    .mutation(async ({ input }) => {
+      return await updateStudent(input);
     }),
 });
