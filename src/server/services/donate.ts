@@ -1,5 +1,6 @@
 import { type DonationSession } from "@/utils/types"
 import { db } from "../db"
+import { DonationOpportunity } from "@prisma/client"
 
 export const getDonationOpportunities = async (type: 'individual' | 'family') => {
   const donationOpportunities = await db.donationOpportunity.findMany()
@@ -30,9 +31,23 @@ export const createDonationSession = async (donationSession: DonationSession) =>
   return session.id
 }
 
-export const getDonationSession = async (donationSessionId: string) => {
+export const getDonationSession = async (donationSessionId: string, full?: boolean) => {
   const sessionData = await db.donationSession.findUnique({
-    where: { id: donationSessionId }
+    where: { id: donationSessionId },
   })
+  if (!sessionData) return null
+  if (full) {
+    const donations = await db.donationOpportunity.findMany({
+      where: {
+        id: {
+          in: sessionData.donationIdsSelected
+        }
+      }
+    })
+    return {
+      ...sessionData,
+      donations
+    }
+  }
   return sessionData
 }

@@ -35,7 +35,7 @@ export default function Checkout() {
   }, [fetchClientSecret]);
 
   if (!donationSessionId || !clientSecret) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center items-center min-h-[80vh] text-gray-400'>Loading...</div>;
   }
 
   const options = { clientSecret };

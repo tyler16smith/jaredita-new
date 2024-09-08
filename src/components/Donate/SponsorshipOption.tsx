@@ -48,7 +48,11 @@ const SponsorshipOption = ({ option }: SponsorshipOptionProps) => {
           strokeWidth={1}
           color={donationState.typeSelected === option.type ? 'white' : 'gray'}
           fill={donationState.typeSelected === option.type ? '#3b82f6' : 'transparent'}
-          className='transition-opacity duration-200 md:opacity-0 md:group-hover:opacity-100'
+          className={classNames(
+            'transition-opacity duration-200', {
+            'md:opacity-0 md:group-hover:opacity-100': donationState.typeSelected !== option.type,
+          }
+          )}
         />
       </div>
       <p className='font-semibold md:mt-5 text-xl md:text-2xl'>{option.title}</p>

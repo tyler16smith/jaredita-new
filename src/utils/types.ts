@@ -3,8 +3,58 @@
 import { z } from "zod"
 import { atLeastOne } from "./array"
 
-// must match the DonationType enum in the database (schema.prisma)
-// TODO: auto generate this from the database
+// must match the models and enums in the database (schema.prisma)
+// TODO: auto generate these types and zod schemas from the database
+
+export enum Gender {
+  male = 'male',
+  female = 'female',
+}
+export const GenderSchema = z.enum(['male', 'female']);
+
+export enum GradeLevel {
+  preK = 'preK',
+  kindergarten = 'kindergarten',
+  first = 'first',
+  second = 'second',
+  third = 'third',
+  fourth = 'fourth',
+  fifth = 'fifth',
+  sixth = 'sixth',
+  seventh = 'seventh',
+  eighth = 'eighth',
+  ninth = 'ninth',
+  tenth = 'tenth',
+  eleventh = 'eleventh',
+  twelfth = 'twelfth',
+  thirteenth = 'thirteenth',
+  technicalSchool = 'technicalSchool',
+  undergraduate = 'undergraduate',
+  masters = 'masters',
+  phd = 'phd',
+}
+export const GradeLevelSchema = z.enum([
+  GradeLevel.preK,
+  GradeLevel.kindergarten,
+  GradeLevel.first,
+  GradeLevel.second,
+  GradeLevel.third,
+  GradeLevel.fourth,
+  GradeLevel.fifth,
+  GradeLevel.sixth,
+  GradeLevel.seventh,
+  GradeLevel.eighth,
+  GradeLevel.ninth,
+  GradeLevel.tenth,
+  GradeLevel.eleventh,
+  GradeLevel.twelfth,
+  GradeLevel.thirteenth,
+  GradeLevel.technicalSchool,
+  GradeLevel.undergraduate,
+  GradeLevel.masters,
+  GradeLevel.phd,
+]);
+
 export enum DonationType {
   individual = 'individual',
   family = 'family',
@@ -94,3 +144,26 @@ export const DonationSessionSchema = z.object({
     completedCheckout: z.boolean(),
   }),
 })
+
+// students
+export const StudentSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string().nullable(),
+  age: z.number(),
+  gender: GenderSchema,
+  imageUrl: z.string(),
+  fullAddress: z.string().nullable(),
+  gradeLevel: z.any(), // GradeLevelSchema.nullable(), // TODO: fix this
+  email: z.string().email().nullable(),
+  familyId: z.string().nullable(),
+})
+export type TStudent = z.infer<typeof StudentSchema>
+
+// families
+export const FamilySchema = z.object({
+  familyId: z.string(),
+  familyName: z.string(),
+  email: z.string().optional(),
+  fullAddress: z.string().optional(),
+})
+export type TFamily = z.infer<typeof FamilySchema>

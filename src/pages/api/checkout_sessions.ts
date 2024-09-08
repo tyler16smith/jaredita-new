@@ -35,7 +35,6 @@ export default async function handler(req: any, res: any) {
   switch (req.method) {
     case "POST":
       try {
-        debugger
         const { donationSessionId } = JSON.parse(req.body);
         if (!donationSessionId) {
           throw new Error('Invalid donation session ID');
