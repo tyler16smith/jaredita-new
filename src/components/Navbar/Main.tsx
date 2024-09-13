@@ -8,6 +8,7 @@ import MobileAside from './MobileAside'
 const Navbar = () => {
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const isAdmin = true // TODO: implement isAdmin check
 
   return (
     <>
@@ -29,6 +30,9 @@ const Navbar = () => {
               <div className='w-[1px] ml-3 h-6 bg-gray-300' />
               <NavbarItem text='Home' route='/' />
               <NavbarItem text='Donate' route='/donate' />
+              {isAdmin && (
+                <NavbarItem text='Manage' route='/manage' />
+              )}
               <NavbarItem text='About' route='/about' />
               <NavbarItem text='Contact' route='/contact' />
             </div>
@@ -49,6 +53,9 @@ const Navbar = () => {
         >
           <NavbarItem text='Home' route='/' />
           <NavbarItem text='Donate' route='/donate' />
+          {isAdmin && (
+            <NavbarItem text='Manage' route='/manage' />
+          )}
           <NavbarItem text='About' route='/about' />
           <NavbarItem text='Contact' route='/contact' />
         </div>
@@ -66,12 +73,12 @@ type NavbarItemProps = {
 const NavbarItem = ({ text, route }: NavbarItemProps) => {
   const router = useRouter()
   return (
-    <p
+    <button
       onClick={() => router.push(route)}
       className='px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors duration-300 cursor-pointer'
     >
       {text}
-    </p>
+    </button>
   )
 }
 

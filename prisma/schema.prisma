@@ -63,8 +63,11 @@ model DonorDonation {
 model Family {
     id          String   @id @default(cuid())
     familyName  String   @map("family_name")
+    imageUrl    String   @map("image_url")
     email       String?
-    fullAddress String?  @map("full_address")
+    fullAddress String   @map("full_address")
+    city        String   @map("city")
+    country     String   @map("country")
     createdAt   DateTime @default(now()) @map("created_at")
     updatedAt   DateTime @updatedAt @map("updated_at")
 
@@ -94,6 +97,8 @@ model Student {
     gender      Gender
     imageUrl    String      @map("image_url")
     fullAddress String?     @map("full_address")
+    city        String      @map("city")
+    country     String      @map("country")
     gradeLevel  GradeLevel? @map("grade_level")
     email       String?
     familyId    String?     @map("family_id")

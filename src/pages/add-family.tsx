@@ -1,27 +1,27 @@
 import { useForm } from "react-hook-form";
 import AddStudentForm from "@/components/Donate/AddStudent/AddStudentForm";
 import UploadImage from "@/components/Donate/AddStudent/UploadImage";
-import { useAddStudentForm } from "@/components/Donate/AddStudent/hooks/useAddStudentForm";
+import { useAddFamilyForm } from "@/components/Donate/AddStudent/hooks/useAddFamilyForm";
 import classNames from "classnames";
 import SelectFamilyDropdown from "@/components/Donate/AddStudent/SelectFamilyDropdown";
+import AddFamilyForm from "@/components/Donate/AddStudent/AddFamilyForm";
 
-const AddStudent = () => {
-  const { handleSubmit, isLoading } = useAddStudentForm();
+const AddFamily = () => {
+  const { handleSubmit, isLoading } = useAddFamilyForm();
   const form = useForm()
 
   return (
     <div className="min-h-screen">
       <div className="flex justify-center">
         <div className="w-full max-w-[470px]">
-          <p className="text-xl font-bold mb-2">Add Student</p>
+          <p className="text-xl font-bold mb-2">Add Family</p>
           <div className="mt-4">
             <form
               className="flex flex-col items-stretch gap-4"
               onSubmit={(e) => handleSubmit(e, form)}
             >
               <UploadImage form={form} />
-              <AddStudentForm form={form} isLoading={isLoading} />
-              <SelectFamilyDropdown form={form} />
+              <AddFamilyForm form={form} isLoading={isLoading} />
               <button
                 type="submit"
                 disabled={isLoading}
@@ -41,4 +41,4 @@ const AddStudent = () => {
   );
 };
 
-export default AddStudent;
+export default AddFamily;

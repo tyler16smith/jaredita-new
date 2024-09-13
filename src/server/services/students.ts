@@ -3,9 +3,8 @@ import { db } from "../db"
 
 export const getStudents = async () => {
   return await db.student.findMany({
-    orderBy: {
-      createdAt: 'desc'
-    }
+    include: { family: true },
+    orderBy: { createdAt: 'desc' }
   })
 }
 
@@ -18,4 +17,26 @@ export const updateStudent = async (updatedStudent: TUpdateStudent) => {
     where: { id: updatedStudent.id },
     data: updatedStudent
   })
+}
+
+export const getIndividualDonationOpportunities = async () => {
+  const students = await db.student.findMany({
+    select: {
+      id: true,
+      age: true,
+      // city: true,
+      // country: true,
+    },
+    // ONLY showing the students without families. At first we don't want to separate students from within their families.
+    where: {
+      familyId: null
+    }
+  })
+  return students.map(student => ({
+    id: student.id,
+    age: student.age,
+    city: 'Bogor', // student.city,
+    country: 'Indonesia', // student.country,
+    cost: 15.00,
+  }))
 }

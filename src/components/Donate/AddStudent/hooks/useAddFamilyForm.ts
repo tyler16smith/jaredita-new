@@ -1,32 +1,26 @@
-// useAddStudentForm.ts hook
+// useAddFamilyForm.ts hook
 import { useState } from "react";
-import { api } from "@/utils/api";
-import toast from "react-hot-toast";
-import { type TStudent } from "@/utils/types";
 import { type UseFormReturn } from "react-hook-form";
+import toast from "react-hot-toast";
+import { type TFamily } from "@/utils/types";
+import { api } from "@/utils/api";
 import { useRouter } from "next/router";
 import { IMAGE_PLACEHOLDER } from "@/utils/data";
 
-export const styles = {
-  Label: "block text-sm font-medium text-gray-600 mt-2 mb-1",
-  Input: "border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-300 focus:ring-opacity-50",
-  Focus: 'focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-300 focus:ring-opacity-50'
-};
-
 export type TSetLoading = (loading: boolean) => void;
 
-export const useAddStudentForm = () => {
+export const useAddFamilyForm = () => {
   const router = useRouter();
   const [added, setAdded] = useState(false);
-  const addStudent = api.students.addStudent.useMutation({
+  const addFamily = api.families.addFamily.useMutation({
     onSuccess: () => {
       setAdded(true);
-      toast.success("Student added successfully");
-      router.push('/manage')
+      toast.success("Family added successfully");
+      router.push('/manage?select=families')
     },
     onError: (error) => {
-      console.error("Error adding student: ", error);
-      toast.error("Error adding student.")
+      console.error("Error adding family: ", error);
+      toast.error("Error adding family.")
     }
   })
 
@@ -44,27 +38,25 @@ export const useAddStudentForm = () => {
 
     // validate required fields
     if (
-      !form.getValues("firstName") ||
-      !form.getValues("age") ||
-      !form.getValues("gender")
+      !form.getValues("familyName") ||
+      !form.getValues("fullAddress")
       // !form.getValues("imageUrl")
     ) {
       toast.error("Please fill out all required fields");
       return;
     }
 
-    const student: TStudent = {
+    const family: TFamily = {
       ...form.getValues(),
-      age: parseInt(form.getValues("age")),
       imageUrl: form.getValues("imageUrl") ?? IMAGE_PLACEHOLDER, // TODO: remove after implementing image upload
     };
     
-    addStudent.mutate(student);
+    addFamily.mutate(family);
   };
 
   return {
     added,
-    isLoading: addStudent.isPending,
+    isLoading: addFamily.isPending,
     isMobile,
     handleSubmit,
   };

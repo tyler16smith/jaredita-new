@@ -61,7 +61,13 @@ export enum DonationType {
   orphanage = 'orphanage',
   general = 'general',
 }
-export type SponsorshipType = keyof typeof DonationType | null
+export const SponsorshipTypeSchema = z.enum([
+  DonationType.individual,
+  DonationType.family,
+  DonationType.orphanage,
+  DonationType.general,
+]);
+export type SponsorshipType = z.infer<typeof SponsorshipTypeSchema>
 export type TSponsorshipOption = {
   id: string
   title: string
@@ -145,6 +151,20 @@ export const DonationSessionSchema = z.object({
   }),
 })
 
+// families
+export const FamilySchema = z.object({
+  familyName: z.string(),
+  email: z.string().optional(),
+  fullAddress: z.string().optional(),
+})
+export type TFamily = z.infer<typeof FamilySchema>
+export const FullFamilySchema = FamilySchema.extend({
+  id: z.string(),
+  updatedAt: z.string(),
+  createdAt: z.string().optional(),
+})
+export type TFullFamily = z.infer<typeof FullFamilySchema>
+
 // students
 export const StudentSchema = z.object({
   firstName: z.string(),
@@ -156,6 +176,7 @@ export const StudentSchema = z.object({
   gradeLevel: z.any(), // GradeLevelSchema.nullable(), // TODO: fix this
   email: z.string().email().nullable(),
   familyId: z.string().nullable(),
+  family: FamilySchema.optional(),
 })
 export type TStudent = z.infer<typeof StudentSchema>
 export const FullStudentSchema = StudentSchema.extend({
@@ -175,16 +196,7 @@ export const UpdateStudentSchema = z.object({
   imageUrl: z.string().optional(),
   fullAddress: z.string().optional(),
   gradeLevel: z.any().optional(), // GradeLevelSchema.nullable(), // TODO: fix this
-  email: z.string().email().optional(),
+  email: z.string().optional(),
   familyId: z.string().optional(),
 })
 export type TUpdateStudent = z.infer<typeof UpdateStudentSchema>
-
-// families
-export const FamilySchema = z.object({
-  id: z.string(),
-  familyName: z.string(),
-  email: z.string().optional(),
-  fullAddress: z.string().optional(),
-})
-export type TFamily = z.infer<typeof FamilySchema>

@@ -12,10 +12,18 @@ const SponsorshipSelection = () => {
   const { donationState, handleSelectDonation, cadence } = useDonateContext()
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const { data: donationOpportunities } = api.donate.getDonationOpportunities.useQuery(
+  const {
+    data: donationOpportunities,
+    refetch: refetchDonationOpportunities
+  } = api.donate.getDonationOpportunities.useQuery(
     { type: donationState.typeSelected ?? '' },
+    { enabled: !!donationState.typeSelected }
   )
   const { header, cost } = getHeaderAndPrice(donationState)
+
+  useEffect(() => {
+    refetchDonationOpportunities()
+  }, [donationState.typeSelected])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,17 +84,21 @@ const SponsorshipSelection = () => {
               'overflow-auto',
             )}
           >
-            {/* <p>Filter</p> */}
-            {donationOpportunities?.map((opportunity) => {
+            {donationOpportunities?.length === 0 ? (
+              <>
+                <p className='text-center text-gray-500'>No sponsorships are available.</p>
+                <p className='text-center text-gray-500'>Please consider selecting a different option!</p>
+              </>
+            ) : donationOpportunities?.map((opportunity) => {
               let label = ''
               const cost = cadence.label === Frequency.yearly
                 ? opportunity.cost * 12
                 : opportunity.cost
               if (donationState.typeSelected === 'individual') {
-                label = `${opportunity.age} year old student`
+                label = `${opportunity?.age} year old student`
               }
               if (donationState.typeSelected === 'family') {
-                label = `Family of ${opportunity.numberOfStudents} students`
+                label = `Family of ${opportunity?.numberOfStudents} students`
               }
               const checked = donationState.donationsSelected.includes(opportunity.id)
               return (

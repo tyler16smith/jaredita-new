@@ -1,38 +1,54 @@
 import { useState } from "react";
 import { donationAmounts } from "@/utils/data";
 import { useDonateContext } from "./context/DonateProvider";
+import classNames from "classnames";
+import { styles } from "./AddStudent/hooks/useAddStudentForm";
 
 const MoneyDonationSelector = () => {
   const { donationState, setDonationState } = useDonateContext();
   const [customAmount, setCustomAmount] = useState("");
+  const [selectedCustomAmount, setSelectedCustomAmount] = useState(false);
 
   const handleCustomAmount = (value: string) => {
-    if (isNaN(parseInt(value))) return
+    if (isNaN(parseInt(value))) {
+      setCustomAmount("");
+      setSelectedCustomAmount(false);
+      return
+    }
     setCustomAmount(value);
+    setSelectedCustomAmount(true);
     setDonationState({
       ...donationState,
       moneyDonationAmount: parseInt(value)
     });
   };
 
+  const handleSelectAmount = (amount: number) => {
+    setSelectedCustomAmount(false);
+    setDonationState({ ...donationState, moneyDonationAmount: amount })
+  }
+
   return (
-    <div className="flex justify-start items-center gap-2 mt-3 w-full md:w-[500px] overflow-x-scroll pb-2">
+    <div className="flex flex-wrap justify-start items-center gap-2 mt-3 w-full md:w-[500px] pb-2">
       {donationAmounts.map((amount: number) => (
-        <p
+        <button
           key={amount}
-          onClick={() => setDonationState({ ...donationState, moneyDonationAmount: amount })}
-          className={`px-4 py-2 rounded-lg border-2 ${donationState.moneyDonationAmount === amount
-            ? "border-black"
-            : "border-gray-300 text-gray-500"
-            } hover:bg-gray-100 cursor-pointer`}
+          onClick={() => handleSelectAmount(amount)}
+          className={classNames(
+            'px-4 py-2 rounded-lg border-2 hover:bg-gray-100 cursor-pointer',
+            'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50', {
+            'border-blue-500': donationState.moneyDonationAmount === amount && !selectedCustomAmount,
+            'border-gray-300 text-gray-500': donationState.moneyDonationAmount !== amount || selectedCustomAmount
+          },
+          )}
         >
           ${amount}
-        </p>
+        </button>
       ))}
       {/* Custom amount */}
-      <div className="flex justify-between items-center w-full text-gray-500">
+      <div onClick={() => setSelectedCustomAmount(true)} className="flex justify-between items-center w-32 text-gray-500">
         <div style={{ position: "relative", width: "100%" }}>
-          <p
+          <span
             className="text-sm p-1.5 pl-3.5"
             style={{
               position: "absolute",
@@ -42,17 +58,19 @@ const MoneyDonationSelector = () => {
             }}
           >
             $
-          </p>
+          </span>
           <input
             type="text"
             name="customAmount"
             placeholder="Custom amount"
             value={customAmount}
             onChange={(e) => handleCustomAmount(e.target.value)}
-            className={`py-2 pl-6 pr-4 w-40 rounded-lg border-2 ${customAmount
-              ? "border-black"
-              : "border-gray-300 text-gray-500"
-              } hover:bg-gray-100 cursor-pointer`}
+            className={classNames(
+              'py-2 pl-6 pr-4 w-44 rounded-lg border-2 border hover:bg-gray-100 cursor-pointer', {
+              'border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50': customAmount !== "" || selectedCustomAmount,
+              'border-gray-300 text-gray-500': customAmount === "" && !selectedCustomAmount
+            }
+            )}
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { addFamily, getFamilies } from "@/server/services/families";
-import { StudentSchema } from "@/utils/types";
+import { addFamily, getFamilies, updateFamily } from "@/server/services/families";
+import { FamilySchema, FullFamilySchema } from "@/utils/types";
 
 export const familiesRouter = createTRPCRouter({
   getFamilies: publicProcedure
@@ -8,8 +8,13 @@ export const familiesRouter = createTRPCRouter({
       return await getFamilies();
     }),
   addFamily: publicProcedure
-    .input(StudentSchema)
+    .input(FamilySchema)
     .mutation(async ({ input }) => {
       return await addFamily(input);
+    }),
+  updateFamily: publicProcedure
+    .input(FullFamilySchema)
+    .mutation(async ({ input }) => {
+      return await updateFamily(input);
     }),
 });

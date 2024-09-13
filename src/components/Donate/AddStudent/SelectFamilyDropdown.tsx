@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { api } from '@/utils/api'
-import { ChevronDown, CircleCheck, CircleDollarSign, MapPin, UsersRound } from 'lucide-react'
-import { Frequency, type TFamily } from '@/utils/types'
+import { ChevronDown, MapPin } from 'lucide-react'
+import { type TFamily } from '@/utils/types'
 import { type UseFormReturn } from 'react-hook-form'
-import Image from 'next/image'
 import FamilyImage from '@/components/Manage/FamilyImage'
 
 const SelectFamilyDropdown = ({ form }: {
@@ -14,8 +13,6 @@ const SelectFamilyDropdown = ({ form }: {
   const [familySelected, setFamilySelected] = useState<TFamily | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const { data: families } = api.families.getFamilies.useQuery()
-
-  console.log("FAMILIES: ", families)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,7 +36,7 @@ const SelectFamilyDropdown = ({ form }: {
       <label className='text-sm font-semibold text-gray-500'>
         Add to family
       </label>
-      <div ref={dropdownRef} className='relative mt-2'>
+      <div ref={dropdownRef} className='relative mt-2 w-full'>
         {/* Dropdown */}
         <div
           onClick={() => setOpen(!open)}
@@ -77,30 +74,34 @@ const SelectFamilyDropdown = ({ form }: {
           <div
             className={classNames(
               'absolute top-full mt-1 left-0 w-full bg-white border-[1px]',
-              'border-gray-200 rounded-3xl p-2 md:p-3 shadow-md z-50 max-h-[300px] md:max-h-[400px]',
-              'overflow-auto',
+              'border-gray-200 rounded-3xl p-2 shadow-md z-50',
             )}
           >
-            {families?.map(family => (
-              <div
-                key={family.id}
-                onClick={() => handleSelectFamily(family)}
-                className={classNames(
-                  'flex justify-start items-center gap-1 md:gap-3 p-2 rounded-2xl',
-                  'bg-white hover:bg-gray-50 cursor-pointer',
-                  'transition-all duration-200',
-                )}
-              >
-                <FamilyImage imageUrl={family.imageUrl} />
-                <div>
-                  <p className='font-semibold'>{family.familyName}</p>
-                  <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
-                    <MapPin size={16} />
-                    <p>{family.fullAddress}</p>
+            <div className='max-h-[300px] md:max-h-[400px] overflow-auto'>
+              {families?.map(family => (
+                <div
+                  key={family.id}
+                  onClick={() => handleSelectFamily(family)}
+                  className={classNames(
+                    'flex justify-start items-center gap-1 md:gap-3 p-2 rounded-2xl',
+                    'bg-white hover:bg-gray-100/90 cursor-pointer',
+                    'transition-all duration-200',
+                  )}
+                >
+                  <FamilyImage imageUrl={family.imageUrl} />
+                  <div>
+                    <p className='font-semibold'>{family.familyName}</p>
+                    <div className='flex justify-start items-center gap-1 text-sm text-gray-400'>
+                      <MapPin size={16} />
+                      <p>{family.fullAddress ?? 'N/A'}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <a href='/add-family' className='text-blue-500 hover:text-blue-700 hover:underline border-t border-gray-200 block mt-2 p-3 pb-2'>
+              Add a family
+            </a>
           </div>
         )}
       </div>

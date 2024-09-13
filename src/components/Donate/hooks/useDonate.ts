@@ -87,7 +87,6 @@ const useDonate = () => {
   };
 
   const handleCheckout = async () => {
-    debugger
     // TODO: account for families and orphanage
     const type = donationState.typeSelected as DonationType;
     const numberOfStudents = donationState.donationsSelected.length;
@@ -112,7 +111,6 @@ const useDonate = () => {
   }
 
   useEffect(() => {
-    debugger
     if (createDonationSession.data) {
       router.push(`/checkout?donationSessionId=${createDonationSession.data}`)
     }
