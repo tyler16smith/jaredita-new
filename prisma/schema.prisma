@@ -26,7 +26,7 @@ model Donation {
 
     donor DonorDonation[]
 
-    @@map("donation_sessions")
+    @@map("donations")
 }
 
 model Donor {
@@ -54,8 +54,9 @@ model DonorDonation {
     createdAt  DateTime     @default(now())
     updatedAt  DateTime     @updatedAt
 
-    donation Donation @relation(fields: [donationId], references: [id])
-    donor    Donor    @relation(fields: [donorId], references: [id])
+    donation          Donation @relation(fields: [donationId], references: [id])
+    donor             Donor    @relation(fields: [donorId], references: [id])
+    donationSessionId String?
 
     @@map("donor_donations")
 }
@@ -71,20 +72,22 @@ model Family {
     createdAt   DateTime @default(now()) @map("created_at")
     updatedAt   DateTime @updatedAt @map("updated_at")
 
-    students Student[]
+    students          Student[]
+    donationSessionId String?
 
     @@map("families")
 }
 
 // orphanage or general donation opportunities
 model OtherDonationOpportunity {
-    id          String            @id @default(cuid())
-    type        OtherDonationType
-    title       String
-    description String
-    imageUrl    String            @map("image_url")
-    createdAt   DateTime          @default(now()) @map("created_at")
-    updatedAt   DateTime          @updatedAt @map("updated_at")
+    id                String            @id @default(cuid())
+    type              OtherDonationType
+    title             String
+    description       String
+    imageUrl          String            @map("image_url")
+    createdAt         DateTime          @default(now()) @map("created_at")
+    updatedAt         DateTime          @updatedAt @map("updated_at")
+    donationSessionId String?
 
     @@map("other_donation_opportunities")
 }
@@ -105,7 +108,8 @@ model Student {
     createdAt   DateTime    @default(now()) @map("created_at")
     updatedAt   DateTime    @updatedAt @map("updated_at")
 
-    family Family? @relation(fields: [familyId], references: [id])
+    family            Family? @relation(fields: [familyId], references: [id])
+    donationSessionId String?
 
     @@map("students")
 }

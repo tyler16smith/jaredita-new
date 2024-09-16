@@ -6,7 +6,8 @@ const SuccessPage = () => {
   const router = useRouter()
   const donationSessionId = router.query.donationSessionId as string
   const { data: donationSession } = api.donate.getDonationSession.useQuery(
-    { id: donationSessionId ?? '' }
+    { id: donationSessionId },
+    { enabled: !!donationSessionId }
   )
 
   console.log("DONATION SESSION: ", donationSession)

@@ -1,9 +1,8 @@
 import { type DonationSession } from "@/utils/types"
 import { db } from "../db"
-import { DonationOpportunity } from "@prisma/client"
 
 export const getDonationOpportunities = async (type: 'individual' | 'family') => {
-  const donationOpportunities = await db.donationOpportunity.findMany()
+  const donationOpportunities = await db.donation.findMany()
   if (!donationOpportunities) return null
   if (type === 'individual') {
     return donationOpportunities
@@ -24,7 +23,7 @@ export const getDonationOpportunities = async (type: 'individual' | 'family') =>
 }
 
 export const createDonationSession = async (donationSession: DonationSession) => {
-  const session = await db.donationSession.create({
+  const session = await db.donation.create({
     data: donationSession
   })
   if (!session) throw new Error('Failed to create donation session')
@@ -32,21 +31,41 @@ export const createDonationSession = async (donationSession: DonationSession) =>
 }
 
 export const getDonationSession = async (donationSessionId: string, full?: boolean) => {
-  const sessionData = await db.donationSession.findUnique({
+  const sessionData = await db.donation.findUnique({
     where: { id: donationSessionId },
   })
   if (!sessionData) return null
   if (full) {
-    const donations = await db.donationOpportunity.findMany({
-      where: {
-        id: {
-          in: sessionData.donationIdsSelected
+    const [students, families, otherDonations] = await Promise.all([
+      db.student.findMany({
+        where: {
+          id: {
+            in: sessionData.selectedDonationIds
+          }
         }
-      }
-    })
+      }),
+      db.family.findMany({
+        where: {
+          id: {
+            in: sessionData.selectedDonationIds
+          }
+        },
+      }),
+      db.otherDonationOpportunity.findMany({
+        where: {
+          id: {
+            in: sessionData.selectedDonationIds
+          }
+        }
+      })
+    ])
     return {
       ...sessionData,
-      donations
+      donations: [
+        ...students,
+        ...families,
+        ...otherDonations
+      ]
     }
   }
   return sessionData
