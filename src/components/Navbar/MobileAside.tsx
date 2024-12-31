@@ -8,7 +8,7 @@ type MobileAsideProps = {
 const MobileAside = ({ open }: MobileAsideProps) => {
   return (
     <div
-      className='p-1.5 md:hidden cursor-pointer hover:bg-gray-100 rounded-lg'
+      className='p-1.5 md:hidden cursor-pointer hover:bg-gray-100/30 rounded-lg'
       onClick={open}
     >
       <Menu size={24} />

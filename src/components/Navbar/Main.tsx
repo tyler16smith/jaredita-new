@@ -5,7 +5,7 @@ import Logo from '../Logo'
 import UserDropdown from './UserDropdown'
 import MobileAside from './MobileAside'
 
-const Navbar = () => {
+const Navbar = ({ fullScreen = false }: { fullScreen?: boolean }) => {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const isAdmin = true // TODO: implement isAdmin check
@@ -14,7 +14,7 @@ const Navbar = () => {
     <>
       <div className={classNames(
         'fixed bg-white md:rounded-2xl',
-        'p-2.5 md:pl-5 bg-gray-100 md:border-[1px] md:border-gray-200 z-10',
+        'p-2.5 md:pl-5 bg-gray-100 md:border-[1px] md:border-gray-200 z-30',
         'md:top-5 left-1/2 transform -translate-x-1/2 bg-opacity-80 backdrop-blur-custom',
         'shadow-md text-sm text-gray-700 w-full max-w-[800px] transition-all duration-300', {
         'h-14': !open,
@@ -26,6 +26,8 @@ const Navbar = () => {
           <div className='flex justify-start items-center gap-3'>
             <MobileAside open={() => setOpen(!open)} />
             <Logo />
+
+            {/* Desktop menu */}
             <div className='hidden md:flex justify-start items-center gap-3'>
               <div className='w-[1px] ml-3 h-6 bg-gray-300' />
               <NavbarItem text='Home' route='/' />
@@ -47,10 +49,14 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-        <div className={classNames('mt-4', {
-          'hidden': !open
+
+        {/* Mobile menu */}
+        <div className={classNames('mt-4 flex flex-col items-start gap-1 overflow-hidden transition-all duration-300', {
+          'max-h-0 opacity-0': !open,
+          'max-h-[500px] opacity-100': open
         })}
         >
+          Test
           <NavbarItem text='Home' route='/' />
           <NavbarItem text='Donate' route='/donate' />
           {isAdmin && (
@@ -60,7 +66,7 @@ const Navbar = () => {
           <NavbarItem text='Contact' route='/contact' />
         </div>
       </div >
-      <div className='h-24' />
+      {!fullScreen && <div className='h-24' />}
     </>
   )
 }

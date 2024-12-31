@@ -63,9 +63,9 @@ const SponsorshipOption = ({ option }: SponsorshipOptionProps) => {
           description={option.description}
           coverImage={option.coverImage}
           trigger={
-            <p className='flex justify-center items-center gap-1 hover:underline cursor-pointer'>
+            <button className='flex justify-center items-center gap-1 hover:underline cursor-pointer'>
               Learn more <ArrowRight size={14} />
-            </p>
+            </button>
           }
         >
           <div className='flex flex-col justify-center items-start gap-5'>

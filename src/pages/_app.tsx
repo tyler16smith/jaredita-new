@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar/Main";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import classNames from "classnames";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ const inter = Inter({
 
 const hideNavbarRoutes = ['/login'];
 const hideFooterRoutes = ['/login'];
+const fullScreenRoutes = ['/'];
 
 const MyApp: AppType = ({
   Component,
@@ -28,11 +30,15 @@ const MyApp: AppType = ({
   const router = useRouter()
 
   const hideNavbar = useMemo(() =>
-    hideNavbarRoutes.includes(router.pathname),
+    hideNavbarRoutes.some(route => route === router.pathname),
     [router.pathname])
 
   const hideFooter = useMemo(() =>
-    hideFooterRoutes.includes(router.pathname),
+    hideFooterRoutes.some(route => route === router.pathname),
+    [router.pathname])
+
+  const fullScreen = useMemo(() =>
+    fullScreenRoutes.some(route => route === router.pathname),
     [router.pathname])
 
   return (
@@ -40,10 +46,16 @@ const MyApp: AppType = ({
       <main className={`font-sans ${inter.variable} bg-gray-50 min-h-screen max-w-screen w-full relative`}>
         <DocumentHeader />
         <Toaster position="top-right" reverseOrder={false} />
-        {!hideNavbar && <Navbar />}
-        <div className="min-h-[calc(100vh-500px)] min-h-[85vh] p-3 md:p-5">
+        {!hideNavbar && <Navbar fullScreen={fullScreen} />}
+        <div className={classNames(
+          "min-h-[85vh]", {
+          'p-3 md:p-5': !fullScreen
+        })}>
           <div className='flex justify-center items-center w-full pb-20'>
-            <div className='w-full max-w-[1200px] flex flex-col justify-center items-center mt-3'>
+            <div className={classNames(
+              "w-full flex flex-col justify-center items-center", {
+              'max-w-[1200px]': !fullScreen
+            })}>
               <Component {...pageProps} />
             </div>
           </div>
