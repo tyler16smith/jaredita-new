@@ -111,7 +111,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* About us */}
+      {/* Our story */}
       <div className="md:flex gap-24 w-full max-w-[1400px] px-5 md:px-20 py-20">
         <div className="flex-shrink-0">
           <Image src="/images/about.png" alt="About us" width={500} height={500} className="rounded-2xl" />
