@@ -21,7 +21,7 @@ const inter = Inter({
 
 const hideNavbarRoutes = ['/login'];
 const hideFooterRoutes = ['/login'];
-const fullScreenRoutes = ['/', '/bina-kasih-orphanage'];
+const fullScreenRoutes = ['/', '/bina-kasih-orphanage', '/berita-jaredita'];
 
 const MyApp: AppType = ({
   Component,

@@ -5,7 +5,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className='flex justify-center p-5 border-t-[1px] border-gray-200'>
+    <div className='flex justify-center p-5 pt-16 border-t-[1px] border-gray-200'>
       <div className='w-full max-w-[1400px]'>
         <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-10 md:gap-3">
           {/* Contact info */}
@@ -52,7 +52,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className='border-t-[1px] border-gray-200 mt-10 pt-7 pb-4'>
+        <div className='border-t-[1px] border-gray-200 mt-10 pt-10 pb-4'>
           <p className='text-center text-sm text-gray-500'>&copy; 2024 Jaredita Foundation. All rights reserved.</p>
         </div>
       </div>

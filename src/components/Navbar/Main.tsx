@@ -62,12 +62,12 @@ const NavbarItems = ({ isAdmin }: { isAdmin: boolean }) => {
   return (
     <>
       <NavbarItem text='Home' route='/' />
-      <NavbarItem text='Donate' route='/donate' />
       {isAdmin && (
         <NavbarItem text='Manage' route='/manage' />
       )}
       <NavbarItem text='About' route='/#about' />
       <NavbarItem text='Orphanage' route='/bina-kasih-orphanage' />
+      <NavbarItem text='Newsletter' route='/berita-jaredita' />
       <NavbarItem text='Contact' route='/#contact' />
     </>
   )
