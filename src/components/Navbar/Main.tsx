@@ -16,7 +16,7 @@ const Navbar = ({ fullScreen = false }: { fullScreen?: boolean }) => {
         'fixed bg-white md:rounded-2xl',
         'p-2.5 md:pl-5 bg-gray-100 md:border-[1px] md:border-gray-200 z-30',
         'md:top-5 left-1/2 transform -translate-x-1/2 bg-opacity-80 backdrop-blur-custom',
-        'shadow-md text-sm text-gray-700 w-full max-w-[800px] transition-all duration-300', {
+        'shadow-md text-sm text-gray-700 w-full max-w-[900px] transition-all duration-300', {
         'h-14': !open,
         'h-auto': open
       }
@@ -30,13 +30,7 @@ const Navbar = ({ fullScreen = false }: { fullScreen?: boolean }) => {
             {/* Desktop menu */}
             <div className='hidden md:flex justify-start items-center gap-3'>
               <div className='w-[1px] ml-3 h-6 bg-gray-300' />
-              <NavbarItem text='Home' route='/' />
-              <NavbarItem text='Donate' route='/donate' />
-              {isAdmin && (
-                <NavbarItem text='Manage' route='/manage' />
-              )}
-              <NavbarItem text='About' route='/about' />
-              <NavbarItem text='Contact' route='/contact' />
+              <NavbarItems isAdmin={isAdmin} />
             </div>
           </div>
           <div className='flex justify-end items-center gap-5'>
@@ -56,17 +50,25 @@ const Navbar = ({ fullScreen = false }: { fullScreen?: boolean }) => {
           'max-h-[500px] opacity-100': open
         })}
         >
-          Test
-          <NavbarItem text='Home' route='/' />
-          <NavbarItem text='Donate' route='/donate' />
-          {isAdmin && (
-            <NavbarItem text='Manage' route='/manage' />
-          )}
-          <NavbarItem text='About' route='/about' />
-          <NavbarItem text='Contact' route='/contact' />
+          <NavbarItems isAdmin={isAdmin} />
         </div>
       </div >
       {!fullScreen && <div className='h-24' />}
+    </>
+  )
+}
+
+const NavbarItems = ({ isAdmin }: { isAdmin: boolean }) => {
+  return (
+    <>
+      <NavbarItem text='Home' route='/' />
+      <NavbarItem text='Donate' route='/donate' />
+      {isAdmin && (
+        <NavbarItem text='Manage' route='/manage' />
+      )}
+      <NavbarItem text='About' route='/#about' />
+      <NavbarItem text='Orphanage' route='/bina-kasih-orphanage' />
+      <NavbarItem text='Contact' route='/#contact' />
     </>
   )
 }

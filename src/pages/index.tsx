@@ -1,8 +1,12 @@
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { boardOfDirectors, indonesiaFacilitators } from '@/lib/data'
+import { useState } from 'react'
 
 const Home = () => {
+  const [hoveredCard, setHoveredCard] = useState<'individual' | 'family' | 'orphanage'>('family');
+
   return (
     <div className="min-h-[60vh] w-full flex flex-col items-center justify-center gap-4 text-center">
       <div className="flex justify-start items-center w-full h-[75vh] bg-[url('/images/kids-2.jpg')] bg-cover bg-center bg-no-repeat">
@@ -12,10 +16,10 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-32 w-full max-w-[1400px] rounded-2xl bg-white shadow-xl p-20 -my-16 z-20">
+      <div id="about" className="flex flex-col gap-32 w-full max-w-[1400px] rounded-2xl bg-white shadow-xl p-20 -my-16 z-20">
         {/* Who are we? */}
         <div>
-          <p className="text-2xl lg:text-3xl font-bold">Who are we?</p>
+          <p className="text-2xl lg:text-3xl font-bold">What is the Jaredita Foundation?</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-16">
             <div className="flex flex-col items-start gap-4 text-start leading-8">
               <div className="flex justify-start items-center gap-4">
@@ -62,8 +66,11 @@ const Home = () => {
           <p className="text-gray-500 text-lg mt-4">Below are the three ways you can support via a monthly or annual sponsorship</p>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 text-start max-w-[1000px] mx-auto'>
             <Link href="/donate">
-              <div className="flex justify-start items-end w-full aspect-square bg-[url('/images/kids-2.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl relative group">
-                <div className="absolute inset-0 bg-green-100/65 rounded-2xl group-hover:opacity-0 transition-opacity duration-300"></div>
+              <div
+                onMouseEnter={() => setHoveredCard('individual')}
+                className="flex justify-start items-end w-full aspect-square bg-[url('/images/kids-2.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl relative"
+              >
+                <div className={`absolute inset-0 bg-green-100/65 rounded-2xl transition-opacity duration-300 ${hoveredCard === 'individual' ? 'opacity-0' : 'opacity-100'}`}></div>
                 <div className="flex flex-col justify-center text-left gap-3 p-8 text-white relative z-10 [text-shadow:_0px_0px_20px_rgba(0,0,0,1)]">
                   <p className="text-2xl font-bold">Individual</p>
                   <p>Sponsor an individual student for $15 per month</p>
@@ -71,8 +78,11 @@ const Home = () => {
               </div>
             </Link>
             <Link href="/donate">
-              <div className="flex justify-start items-end w-full aspect-square bg-[url('/images/family.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl relative group">
-                <div className="absolute inset-0 bg-yellow-100/65 rounded-2xl group-hover:opacity-0 transition-opacity duration-300"></div>
+              <div
+                onMouseEnter={() => setHoveredCard('family')}
+                className="flex justify-start items-end w-full aspect-square bg-[url('/images/family.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl relative"
+              >
+                <div className={`absolute inset-0 bg-yellow-100/65 rounded-2xl transition-opacity duration-300 ${hoveredCard === 'family' ? 'opacity-0' : 'opacity-100'}`}></div>
                 <div className="flex flex-col justify-center text-left gap-3 p-8 text-white [text-shadow:_0px_0px_20px_rgba(0,0,0,1)] relative z-10">
                   <p className="text-2xl font-bold">Family</p>
                   <p>Sponsor a family for $15 per student per month</p>
@@ -80,8 +90,11 @@ const Home = () => {
               </div>
             </Link>
             <Link href="/donate">
-              <div className="flex justify-start items-end w-full aspect-square bg-[url('/images/bina-kasih-orphanage.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl relative group">
-                <div className="absolute inset-0 bg-blue-100/65 rounded-2xl group-hover:opacity-0 transition-opacity duration-300"></div>
+              <div
+                onMouseEnter={() => setHoveredCard('orphanage')}
+                className="flex justify-start items-end w-full aspect-square bg-[url('/images/bina-kasih-orphanage.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl relative"
+              >
+                <div className={`absolute inset-0 bg-blue-100/65 rounded-2xl transition-opacity duration-300 ${hoveredCard === 'orphanage' ? 'opacity-0' : 'opacity-100'}`}></div>
                 <div className="flex flex-col justify-center text-left gap-3 p-8 text-white [text-shadow:_0px_0px_20px_rgba(0,0,0,1)] relative z-10">
                   <p className="text-2xl font-bold">Orphanage</p>
                   <p>Sponsor an orphanage to support its students</p>
@@ -95,13 +108,13 @@ const Home = () => {
       {/* Mission */}
       <div className="flex justify-start items-center w-full h-[90vh] bg-[url('/images/bg.jpg')] bg-cover bg-center bg-no-repeat relative">
         <div className="absolute inset-0 bg-gray-900/50"></div>
-        <div className="px-[5%] lg:pl-[16%] max-w-[800px] relative z-10">
+        <div className="px-[5%] lg:pl-[16%] max-w-[900px] relative z-10">
           <div className="flex flex-col justify-center text-left gap-7 p-12 bg-white rounded-2xl shadow-xl">
-            <p className="text-3xl font-bold">Our mission</p>
-            <p className="text-xl font-light leading-8">
+            <p className="text-2xl lg:text-3xl font-bold">Our mission</p>
+            <p className="text-lg font-light leading-8">
               The Jaredita Foundation is committed to helping young people in Indonesia build a better future for themselves and their families by providing financial assistance that allows them to achieve their educational goals.
             </p>
-            <p className="text-xl font-light leading-8">
+            <p className="text-lg font-light leading-8">
               The generous hearts of donors and volunteers make this dream a reality.
             </p>
             <Link href="/donate" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-4 rounded-xl w-fit">
@@ -117,21 +130,91 @@ const Home = () => {
           <Image src="/images/about.png" alt="About us" width={500} height={500} className="rounded-2xl" />
         </div>
         <div className="flex flex-col text-start gap-12">
-          <p className="text-3xl font-bold mt-16 md:mt-0 -mb-6">Our story</p>
-          <p className="text-xl font-light leading-8">
-            The Jaredita Foundation Inc (JFI) is a 501(c)(3) non-profit organization named in honor of Jaredita–beloved daughter of Steffi and Subandriyo. She passed away in 2007 after one year of schooling at BYU-Hawaii and just weeks before she planned to enter BYU-Provo. Jaredita had a love of learning and a love for the children of Indonesia.
+          <p className="text-2xl lg:text-3xl font-bold mt-16 md:mt-0 -mb-6">Our story</p>
+          <p className="text-lg font-light leading-8">
+            The Jaredita Foundation Inc (JFI) is a 501(c)(3) non-profit organization named in honor of Jaredita - beloved daughter of Steffi and Subandriyo. She passed away in 2007 after one year of schooling at BYU-Hawaii and just weeks before she planned to enter BYU-Provo. Jaredita had a love of learning and a love for the children of Indonesia.
           </p>
-          <p className="text-xl font-light leading-8">
+          <p className="text-lg font-light leading-8">
             The purpose of JFI is to help Latter-day Saint children and young adults get an education. With the help of in-country facilitators (all are returned missionaries), children who are not able to attend school because their families cannot afford tuition, books and uniforms (about $11-15 per month) will be offered financial assistance to pay for primary and secondary schooling.
           </p>
-          <p className="text-xl font-light leading-8">
+          <p className="text-lg font-light leading-8">
             Payments are made directly to the schools. In most instances the fund will pay for half of the school cost with the family paying the other half. On occasion, JFI will also offer tuition assistance for qualified Latter-day Saint young adults to obtain post secondary school training.
           </p>
-          <p className="text-xl font-light leading-8">
+          <p className="text-lg font-light leading-8">
             Donors will be sent a yearly report of how the funds were used.
           </p>
         </div>
       </div>
+
+      <div id="contact" className="my-8 w-full max-w-[1400px] rounded-2xl bg-white border border-gray-200 shadow-xl p-20 overflow-auto">
+
+        {/* Board of Directors */}
+        <p className='text-2xl lg:text-3xl font-bold mb-6'>Board of Directors</p>
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase">
+            <tr>
+              <th scope="col" className='px-4 py-3'>
+                Name
+              </th>
+              <th scope="col" className="px-2">
+                Email
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {boardOfDirectors.map(director => (
+              <tr className="text-base border-b align-middle flex-grow text-black">
+                <td className="px-4 font-semibold justify-start whitespace-nowrap py-2">
+                  {director.name}
+                </td>
+                <td className="px-4 cursor-pointer justify-start py-2">
+                  <a href={`mailto:${director.email}`} className="text-blue-500 hover:underline">
+                    {director.email}
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Indonesian Facilitators */}
+        <p className='text-2xl lg:text-3xl font-bold mt-20 mb-6'>Indonesia Facilitators</p>
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase">
+            <tr>
+              <th scope="col" className='px-4 py-2'>
+                Name
+              </th>
+              <th scope="col" className='px-4 py-2'>
+                City
+              </th>
+              <th scope="col" className="px-2 py-2">
+                Email
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {indonesiaFacilitators.map(facilitator => (
+              <tr className="text-base border-b align-middle flex-grow text-black">
+                <td className="px-4 font-semibold justify-start whitespace-nowrap py-2">
+                  {facilitator.name}
+                </td>
+                <td className="px-4 justify-start py-2">
+                  {facilitator.city}
+                </td>
+                <td className="px-4 justify-start py-2">
+                  {facilitator.email && (
+                    <a href={`mailto:${facilitator.email}`} className="text-blue-500 hover:underline">
+                      {facilitator.email}
+                    </a>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
     </div>
   )
 }
